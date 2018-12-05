@@ -44,6 +44,9 @@ public class IncreasesDecreases {
 
 
     static Pair<String, String> increase(int stitches, int incStitches) {
+        if (stitches <= 0 || incStitches <= 0){
+            return new Pair<>("", "");
+        }
         double times1_1 = Math.min(Math.floor(stitches - 1), incStitches);
         // calculate first
         double stitches_1 = (double) stitches;
@@ -93,7 +96,7 @@ public class IncreasesDecreases {
         }
 
         String m1S = cleanInner((int) times1_1, cleanInner((int) knitBet1, "(K%d, M1 K1) ", "(M1 K1) ") + "%d times", "");
-        System.out.println(knitEnd1);
+        //System.out.println(knitEnd1);
         String end = cleanInner((int) knitEnd1, ", end with K%d", "");
         String method1 = m1S + end;
 
@@ -114,7 +117,9 @@ public class IncreasesDecreases {
     }
 
     static Pair<String, String> decrease(int stitches, int decStitches) {
-
+        if (stitches <= 0 || decStitches <= 0){
+            return new Pair<>("", "");
+        }
         double times1_1 = Math.min(Math.floor(stitches / 2), decStitches);
         // calculate first
         //p.times1_1.value=times1_1;
