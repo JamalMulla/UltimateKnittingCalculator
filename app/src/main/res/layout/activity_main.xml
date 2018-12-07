@@ -5,6 +5,7 @@
     android:id="@+id/container"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="?attr/backgroundColor"
     tools:context=".MainActivity">
 
     <android.support.v7.widget.Toolbar
@@ -44,65 +45,61 @@
             android:orientation="vertical"
             app:layout_constraintGuide_begin="158dp" />
 
-        <TextView
-            android:id="@+id/tv_num_stitches"
+        <android.support.design.widget.TextInputLayout
+            android:id="@+id/textInputLayout2"
+            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+            android:hint="Current stitches"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginEnd="8dp"
-            android:padding="5dp"
-            android:text="Current Stitches"
-            android:textSize="16sp"
-            app:layout_constraintBottom_toTopOf="@+id/tv_num_change"
-            app:layout_constraintEnd_toStartOf="@+id/et_num_stitches"
-            app:layout_constraintStart_toStartOf="@+id/tv_num_change"
-            app:layout_constraintTop_toBottomOf="@+id/switch_mode"
-            app:layout_constraintVertical_chainStyle="spread_inside" />
-
-        <TextView
-            android:id="@+id/tv_num_change"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="8dp"
-            android:layout_marginEnd="8dp"
-            android:padding="5dp"
-            android:text="No. to increase"
-            android:textSize="16sp"
-            app:layout_constraintBottom_toTopOf="@+id/guideline2"
-            app:layout_constraintEnd_toStartOf="@+id/guideline5"
-            app:layout_constraintHorizontal_bias="1.0"
+            android:layout_marginTop="8dp"
+            app:layout_constraintBottom_toTopOf="@+id/textInputLayout"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.75"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/tv_num_stitches" />
+            app:layout_constraintTop_toBottomOf="@+id/switch_mode"
+            app:theme="@style/AppTheme">
 
-        <EditText
-            android:id="@+id/et_num_stitches"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="8dp"
-            android:layout_marginEnd="48dp"
-            android:ems="10"
-            android:inputType="number"
-            android:text=""
-            android:textSize="16sp"
-            app:layout_constraintBaseline_toBaselineOf="@+id/tv_num_stitches"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.0"
-            app:layout_constraintStart_toStartOf="@+id/guideline5" />
+            <android.support.design.widget.TextInputEditText
+                android:id="@+id/et_num_stitches"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="8dp"
+                android:layout_marginEnd="48dp"
+                android:ems="10"
+                android:inputType="number"
+                android:text=""
+                android:textSize="16sp" />
 
-        <EditText
-            android:id="@+id/et_num_change"
-            android:layout_width="0dp"
+        </android.support.design.widget.TextInputLayout>
+
+
+        <android.support.design.widget.TextInputLayout
+            android:id="@+id/textInputLayout"
+            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+            android:hint="No. to increase"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginStart="8dp"
-            android:layout_marginEnd="48dp"
-            android:ems="10"
-            android:inputType="number"
-            android:paddingRight="0dp"
-            android:text=""
-            android:textSize="16sp"
-            app:layout_constraintBaseline_toBaselineOf="@+id/tv_num_change"
+            app:layout_constraintBottom_toTopOf="@+id/guideline2"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.0"
-            app:layout_constraintStart_toStartOf="@+id/guideline5" />
+            app:layout_constraintHorizontal_bias="0.75"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/textInputLayout2"
+            app:theme="@style/AppTheme">
+
+            <android.support.design.widget.TextInputEditText
+                android:id="@+id/et_num_change"
+
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="8dp"
+                android:layout_marginEnd="48dp"
+                android:ems="10"
+                android:inputType="number"
+                android:text=""
+                android:textSize="16sp" />
+
+        </android.support.design.widget.TextInputLayout>
+
 
         <android.support.design.button.MaterialButton
             android:id="@+id/btn_calc"
@@ -113,12 +110,15 @@
             android:layout_marginBottom="24dp"
             android:text="Calculate"
             android:textColor="#fff"
-            app:backgroundTint="#7b1fa2"
+            app:strokeColor="@color/colorAccent"
+            app:strokeWidth="2dp"
+            app:backgroundTint="?attr/backgroundColor"
             app:layout_constraintBottom_toTopOf="@+id/tv_method1"
             app:layout_constraintEnd_toStartOf="@+id/btn_clear"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="@+id/guideline2"
-            app:layout_constraintVertical_chainStyle="spread_inside" />
+            app:layout_constraintVertical_chainStyle="spread_inside"
+/>
 
         <android.support.design.button.MaterialButton
             android:id="@+id/btn_clear"
@@ -128,19 +128,20 @@
             android:layout_marginTop="8dp"
             android:text="Clear"
             android:textColor="#fff"
-            app:backgroundTint="#7b1fa2"
+            app:strokeColor="@color/colorAccent"
+            app:strokeWidth="2dp"
+            app:backgroundTint="?attr/backgroundColor"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toEndOf="@+id/btn_calc"
-            app:layout_constraintTop_toTopOf="@+id/guideline2"
-            app:strokeColor="#7b1fa2"
-            app:strokeWidth="2dp" />
+            app:layout_constraintTop_toTopOf="@+id/guideline2" />
 
         <Switch
             android:id="@+id/switch_mode"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_marginBottom="8dp"
             android:text="Increase"
-            app:layout_constraintBottom_toTopOf="@+id/tv_num_stitches"
+            app:layout_constraintBottom_toTopOf="@+id/textInputLayout2"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />

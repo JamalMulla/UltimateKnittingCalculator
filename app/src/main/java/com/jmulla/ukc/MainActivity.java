@@ -3,6 +3,9 @@ package com.jmulla.ukc;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.design.widget.BottomNavigationView;
+import android.support.design.widget.TextInputEditText;
+import android.support.design.widget.TextInputLayout;
+import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.text.Editable;
@@ -51,7 +54,10 @@ public class MainActivity extends AppCompatActivity {
         final Toolbar myToolbar = findViewById(R.id.my_toolbar);
         setSupportActionBar(myToolbar);
         //Removes the default title so we can use the custom one
-        getSupportActionBar().setDisplayShowTitleEnabled(false);
+        ActionBar supportActionBar = getSupportActionBar();
+        if (supportActionBar != null) {
+            supportActionBar.setDisplayShowTitleEnabled(false);
+        }
         mTextMessage = findViewById(R.id.message);
         BottomNavigationView navigation = findViewById(R.id.navigation);
         navigation.setOnNavigationItemSelectedListener(mOnNavigationItemSelectedListener);
@@ -60,10 +66,10 @@ public class MainActivity extends AppCompatActivity {
         Button btn_calc = findViewById(R.id.btn_calc);
         Button btn_clear = findViewById(R.id.btn_clear);
         final EditText et_num_stitches = findViewById(R.id.et_num_stitches);
-        final EditText et_num_change = findViewById(R.id.et_num_change);
+        final TextInputEditText et_num_change = findViewById(R.id.et_num_change);
         final TextView tv_method1 = findViewById(R.id.tv_method1);
         final TextView tv_method2 = findViewById(R.id.tv_method2);
-        final TextView tv_num_change = findViewById(R.id.tv_num_change);
+        final TextInputLayout til = findViewById(R.id.textInputLayout);
 
         et_num_stitches.addTextChangedListener(new TextWatcher() {
             @Override
@@ -112,6 +118,7 @@ public class MainActivity extends AppCompatActivity {
             public void onClick(View view) {
                 et_num_stitches.setText("");
                 et_num_change.setText("");
+                et_num_stitches.requestFocus();
             }
         });
 
@@ -119,12 +126,12 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onCheckedChanged(CompoundButton compoundButton, boolean isChecked) {
                 if (isChecked){
-                    compoundButton.setText("Decrease");
-                    tv_num_change.setText("No. to decrease");
+                    compoundButton.setText("Decreasing");
+                    til.setHint("No. to decrease");
 
                 } else {
-                    compoundButton.setText("Increase");
-                    tv_num_change.setText("No. to increase");
+                    compoundButton.setText("Increasing");
+                    til.setHint("No. to increase");
                 }
                 calculateAndSetTVs(et_num_stitches, et_num_change, mode, tv_method1, tv_method2);
             }
