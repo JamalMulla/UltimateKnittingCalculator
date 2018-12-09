@@ -1,5 +1,8 @@
 package com.jmulla.ukc;
 
+import android.app.ActivityManager;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.design.widget.BottomNavigationView;
@@ -17,15 +20,24 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.CompoundButton;
 import android.widget.EditText;
+import android.widget.RadioButton;
+import android.widget.RadioGroup;
 import android.widget.Switch;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import static com.jmulla.ukc.IncreasesDecreases.decrease;
 import static com.jmulla.ukc.IncreasesDecreases.increase;
 
 public class MainActivity extends AppCompatActivity {
-
-    private TextView mTextMessage;
+    private RadioGroup switch_mode;
+    private RadioButton btn_increase;
+    private RadioButton btn_decrease;
+    private TextInputEditText et_num_stitches;
+    private TextInputEditText et_num_change;
+    private TextInputLayout til;
+    private TextView tv_method2;
+    private TextView tv_method1;
 
     private BottomNavigationView.OnNavigationItemSelectedListener mOnNavigationItemSelectedListener
             = new BottomNavigationView.OnNavigationItemSelectedListener() {
@@ -34,21 +46,28 @@ public class MainActivity extends AppCompatActivity {
         public boolean onNavigationItemSelected(@NonNull MenuItem item) {
             switch (item.getItemId()) {
                 case R.id.navigation_home:
-                    mTextMessage.setText(R.string.title_home);
                     return true;
                 case R.id.navigation_dashboard:
-                    mTextMessage.setText(R.string.title_dashboard);
-                    return true;
+                    return false;
                 case R.id.navigation_notifications:
-                    mTextMessage.setText(R.string.title_notifications);
-                    return true;
+                    return false;
             }
             return false;
         }
     };
 
+
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        //Changes color of taskbar
+        Bitmap bm = BitmapFactory.decodeResource(getResources(), getApplicationInfo().icon);
+        if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.LOLLIPOP) {
+            int color =  getResources().getColor(R.color.grey900);
+            ActivityManager.TaskDescription taskDesc = new ActivityManager.TaskDescription("Knitting Calculator", bm, color);
+            this.setTaskDescription(taskDesc);
+        }
+
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         final Toolbar myToolbar = findViewById(R.id.my_toolbar);
@@ -58,58 +77,25 @@ public class MainActivity extends AppCompatActivity {
         if (supportActionBar != null) {
             supportActionBar.setDisplayShowTitleEnabled(false);
         }
-        mTextMessage = findViewById(R.id.message);
         BottomNavigationView navigation = findViewById(R.id.navigation);
         navigation.setOnNavigationItemSelectedListener(mOnNavigationItemSelectedListener);
-
-        final Switch mode = findViewById(R.id.switch_mode);
+        switch_mode = findViewById(R.id.switch_mode);
+        btn_increase = findViewById(R.id.btn_increase);
+        btn_decrease = findViewById(R.id.btn_decrease);
         Button btn_calc = findViewById(R.id.btn_calc);
         Button btn_clear = findViewById(R.id.btn_clear);
-        final EditText et_num_stitches = findViewById(R.id.et_num_stitches);
-        final TextInputEditText et_num_change = findViewById(R.id.et_num_change);
-        final TextView tv_method1 = findViewById(R.id.tv_method1);
-        final TextView tv_method2 = findViewById(R.id.tv_method2);
-        final TextInputLayout til = findViewById(R.id.textInputLayout);
+        et_num_stitches = findViewById(R.id.et_num_stitches);
+        et_num_change = findViewById(R.id.et_num_change);
+        til = findViewById(R.id.textInputLayout);
+        tv_method1 = findViewById(R.id.tv_method1);
+        tv_method2 = findViewById(R.id.tv_method2);
 
-        et_num_stitches.addTextChangedListener(new TextWatcher() {
-            @Override
-            public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
-
-            }
-
-            @Override
-            public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
-                calculateAndSetTVs(et_num_stitches, et_num_change, mode, tv_method1, tv_method2);
-            }
-
-            @Override
-            public void afterTextChanged(Editable editable) {
-
-            }
-        });
-
-        et_num_change.addTextChangedListener(new TextWatcher() {
-            @Override
-            public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
-
-            }
-
-            @Override
-            public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
-                calculateAndSetTVs(et_num_stitches, et_num_change, mode, tv_method1, tv_method2);
-            }
-
-            @Override
-            public void afterTextChanged(Editable editable) {
-
-            }
-        });
 
 
         btn_calc.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                calculateAndSetTVs(et_num_stitches, et_num_change, mode, tv_method1, tv_method2);
+                calculateAndSetTVs();
             }
         });
 
@@ -119,49 +105,59 @@ public class MainActivity extends AppCompatActivity {
                 et_num_stitches.setText("");
                 et_num_change.setText("");
                 et_num_stitches.requestFocus();
+                tv_method1.setText("");
+                tv_method2.setText("");
+                tv_method1.setVisibility(View.GONE);
+                tv_method2.setVisibility(View.GONE);
             }
         });
 
-        mode.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+        switch_mode.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
             @Override
-            public void onCheckedChanged(CompoundButton compoundButton, boolean isChecked) {
-                if (isChecked){
-                    compoundButton.setText("Decreasing");
-                    til.setHint("No. to decrease");
-
-                } else {
-                    compoundButton.setText("Increasing");
+            public void onCheckedChanged(RadioGroup radioGroup, int i) {
+                if (radioGroup.getCheckedRadioButtonId() == btn_increase.getId()){
                     til.setHint("No. to increase");
                 }
-                calculateAndSetTVs(et_num_stitches, et_num_change, mode, tv_method1, tv_method2);
+                if (radioGroup.getCheckedRadioButtonId() == btn_decrease.getId()){
+                    til.setHint("No. to decrease");
+                }
+                calculateAndSetTVs();
             }
         });
+
 
     }
 
-    private void calculateAndSetTVs(EditText et_num_stitches, EditText et_num_change, Switch mode, TextView tv_method1, TextView tv_method2) {
+    private void calculateAndSetTVs() {
+        boolean success = false;
         int stitches = 0;
         try {
             stitches = Integer.parseInt(et_num_stitches.getText().toString());
-        } catch (NumberFormatException e) {
+            success = true;
+        } catch (Exception e) {
             e.printStackTrace();
         }
         int changes = 0;
         try {
             changes = Integer.parseInt(et_num_change.getText().toString());
-        } catch (NumberFormatException e) {
+            success = true;
+        } catch (Exception e) {
             e.printStackTrace();
         }
-
-        if (!mode.isChecked()){
-            Pair<String, String> increase = increase(stitches, changes);
-            tv_method1.setText(increase.first);
-            tv_method2.setText(increase.second);
-        }else {
-            Pair<String, String> decrease = decrease(stitches, changes);
-            tv_method1.setText(decrease.first);
-            tv_method2.setText(decrease.second);
+        if (success){
+            if (switch_mode.getCheckedRadioButtonId() == btn_increase.getId()){
+                Pair<String, String> increase = increase(stitches, changes);
+                tv_method1.setText(increase.first);
+                tv_method2.setText(increase.second);
+            }else if (switch_mode.getCheckedRadioButtonId() == btn_decrease.getId()){
+                Pair<String, String> decrease = decrease(stitches, changes);
+                tv_method1.setText(decrease.first);
+                tv_method2.setText(decrease.second);
+            }
+            tv_method1.setVisibility(View.VISIBLE);
+            tv_method2.setVisibility(View.VISIBLE);
         }
+
     }
 
 }

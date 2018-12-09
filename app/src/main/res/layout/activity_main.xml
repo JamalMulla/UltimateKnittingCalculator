@@ -17,12 +17,14 @@
 
         <TextView
             android:id="@+id/toolbar_title"
+            android:padding="0dp"
+            android:text="Calculator"
+            android:textColor="@color/white"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
-            android:padding="0dp"
-            android:text="Calculator"
-            android:textSize="20sp" />
+            android:textSize="20sp"
+            app:fontFamily="@font/sary_soft_soft_regular"/>
     </android.support.v7.widget.Toolbar>
 
     <android.support.constraint.ConstraintLayout
@@ -31,40 +33,96 @@
         android:layout_height="0dp"
         app:layout_constraintTop_toBottomOf="@+id/my_toolbar">
 
-        <android.support.constraint.Guideline
-            android:id="@+id/guideline2"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+        <RadioGroup
+            android:id="@+id/switch_mode"
+            android:layout_width="0dp"
+            android:layout_height="35dp"
+            android:layout_marginStart="8dp"
+            android:layout_marginTop="24dp"
+            android:layout_marginEnd="8dp"
+            android:layout_marginBottom="32dp"
+            android:background="@drawable/pink_outline"
+            android:checkedButton="@id/btn_increase"
             android:orientation="horizontal"
-            app:layout_constraintGuide_begin="247dp" />
+            app:layout_constraintBottom_toTopOf="@+id/textInputLayout2"
+            app:layout_constraintEnd_toStartOf="@+id/gl_right_top"
+            app:layout_constraintStart_toStartOf="@+id/gl_left_top"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintVertical_chainStyle="spread">
+
+            <RadioButton
+                android:id="@+id/btn_increase"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:layout_marginStart="1dp"
+                android:layout_marginTop="1dp"
+                android:layout_marginBottom="1dp"
+                android:layout_weight="1"
+                android:background="@drawable/custom_toggle"
+                android:button="@null"
+                android:gravity="center"
+                android:text="Increase"
+                android:textColor="@color/white" />
+
+            <RadioButton
+                android:id="@+id/btn_decrease"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:layout_marginTop="1dp"
+                android:layout_marginEnd="1dp"
+                android:layout_marginBottom="1dp"
+                android:layout_weight="1"
+                android:background="@drawable/custom_toggle"
+                android:button="@null"
+                android:gravity="center"
+                android:text="Decrease"
+                android:textColor="@color/white" />
+        </RadioGroup>
 
         <android.support.constraint.Guideline
-            android:id="@+id/guideline5"
+            android:id="@+id/gl_right_top"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:orientation="vertical"
-            app:layout_constraintGuide_begin="158dp" />
+            app:layout_constraintGuide_end="30dp" />
+
+        <android.support.constraint.Guideline
+            android:id="@+id/gl_left_top"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            app:layout_constraintGuide_begin="30dp" />
+
+        <android.support.constraint.Guideline
+            android:id="@+id/gl_center_h"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            app:layout_constraintGuide_begin="286dp" />
 
         <android.support.design.widget.TextInputLayout
             android:id="@+id/textInputLayout2"
             style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
-            android:hint="Current stitches"
-            android:layout_width="wrap_content"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
+            android:layout_marginStart="8dp"
             android:layout_marginTop="8dp"
+            android:layout_marginEnd="8dp"
+            android:hint="Current stitches"
+            app:boxStrokeWidth="1dp"
             app:layout_constraintBottom_toTopOf="@+id/textInputLayout"
-            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintEnd_toStartOf="@+id/gl_right_top"
             app:layout_constraintHorizontal_bias="0.75"
-            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintStart_toStartOf="@+id/gl_left_top"
             app:layout_constraintTop_toBottomOf="@+id/switch_mode"
             app:theme="@style/AppTheme">
 
             <android.support.design.widget.TextInputEditText
                 android:id="@+id/et_num_stitches"
-                android:layout_width="wrap_content"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="8dp"
-                android:layout_marginEnd="48dp"
+                android:paddingStart="10dp"
+                android:paddingEnd="10dp"
                 android:ems="10"
                 android:inputType="number"
                 android:text=""
@@ -76,28 +134,29 @@
         <android.support.design.widget.TextInputLayout
             android:id="@+id/textInputLayout"
             style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
-            android:hint="No. to increase"
-            android:layout_width="wrap_content"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
-            app:layout_constraintBottom_toTopOf="@+id/guideline2"
-            app:layout_constraintEnd_toEndOf="parent"
+            android:layout_marginStart="8dp"
+            android:layout_marginTop="8dp"
+            android:layout_marginEnd="8dp"
+            android:hint="No. to increase"
+            app:boxStrokeWidth="1dp"
+            app:layout_constraintEnd_toStartOf="@+id/gl_right_top"
             app:layout_constraintHorizontal_bias="0.75"
-            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintStart_toStartOf="@+id/gl_left_top"
             app:layout_constraintTop_toBottomOf="@+id/textInputLayout2"
             app:theme="@style/AppTheme">
 
             <android.support.design.widget.TextInputEditText
                 android:id="@+id/et_num_change"
-
-                android:layout_width="wrap_content"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="8dp"
-                android:layout_marginEnd="48dp"
                 android:ems="10"
                 android:inputType="number"
+                android:paddingStart="10dp"
+                android:paddingEnd="10dp"
                 android:text=""
                 android:textSize="16sp" />
-
         </android.support.design.widget.TextInputLayout>
 
 
@@ -105,70 +164,72 @@
             android:id="@+id/btn_calc"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="8dp"
+            android:layout_marginStart="8dp"
+            android:layout_marginTop="16dp"
             android:layout_marginEnd="8dp"
-            android:layout_marginBottom="24dp"
+            android:layout_marginBottom="16dp"
             android:text="Calculate"
-            android:textColor="#fff"
-            app:strokeColor="@color/colorAccent"
-            app:strokeWidth="2dp"
-            app:backgroundTint="?attr/backgroundColor"
-            app:layout_constraintBottom_toTopOf="@+id/tv_method1"
+            android:textColor="@color/white"
+            app:backgroundTint="@color/colorAccent"
+            app:layout_constraintBottom_toTopOf="@+id/gl_center_h"
             app:layout_constraintEnd_toStartOf="@+id/btn_clear"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="@+id/guideline2"
+            app:layout_constraintHorizontal_chainStyle="spread_inside"
+            app:layout_constraintStart_toStartOf="@+id/gl_left_top"
+            app:layout_constraintTop_toBottomOf="@+id/textInputLayout"
             app:layout_constraintVertical_chainStyle="spread_inside"
-/>
+            app:strokeColor="@color/grey900"
+            app:strokeWidth="1dp" />
 
         <android.support.design.button.MaterialButton
             android:id="@+id/btn_clear"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginStart="96dp"
-            android:layout_marginTop="8dp"
+            android:layout_marginTop="16dp"
+            android:layout_marginEnd="8dp"
+            android:layout_marginBottom="16dp"
             android:text="Clear"
-            android:textColor="#fff"
-            app:strokeColor="@color/colorAccent"
-            app:strokeWidth="2dp"
+            android:textColor="@color/white"
             app:backgroundTint="?attr/backgroundColor"
-            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintBottom_toTopOf="@+id/gl_center_h"
+            app:layout_constraintEnd_toStartOf="@+id/gl_right_top"
             app:layout_constraintStart_toEndOf="@+id/btn_calc"
-            app:layout_constraintTop_toTopOf="@+id/guideline2" />
+            app:layout_constraintTop_toBottomOf="@+id/textInputLayout"
+            app:strokeColor="@color/colorAccent"
+            app:strokeWidth="1dp" />
 
-        <Switch
-            android:id="@+id/switch_mode"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginBottom="8dp"
-            android:text="Increase"
-            app:layout_constraintBottom_toTopOf="@+id/textInputLayout2"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
 
         <TextView
             android:id="@+id/tv_method1"
-            android:layout_width="wrap_content"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
+            android:layout_marginStart="8dp"
+            android:layout_marginTop="32dp"
             android:layout_marginEnd="8dp"
+            android:background="@drawable/pink_outline"
             android:padding="10dp"
             android:textAlignment="center"
+            android:textColor="@color/white"
+            android:visibility="gone"
             app:layout_constraintBottom_toTopOf="@+id/tv_method2"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/btn_calc" />
+            app:layout_constraintEnd_toStartOf="@+id/gl_right_top"
+            app:layout_constraintStart_toStartOf="@+id/gl_left_top"
+            app:layout_constraintTop_toTopOf="@+id/gl_center_h" />
 
         <TextView
             android:id="@+id/tv_method2"
-            android:layout_width="wrap_content"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
+            android:layout_marginStart="8dp"
             android:layout_marginTop="16dp"
             android:layout_marginEnd="8dp"
+            android:background="@drawable/pink_outline"
             android:padding="10dp"
             android:textAlignment="center"
+            android:textColor="@color/white"
+            android:visibility="gone"
             app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toStartOf="@+id/gl_right_top"
+            app:layout_constraintStart_toStartOf="@+id/gl_left_top"
             app:layout_constraintTop_toBottomOf="@+id/tv_method1" />
     </android.support.constraint.ConstraintLayout>
 
@@ -176,7 +237,7 @@
         android:id="@+id/navigation"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:background="?android:attr/windowBackground"
+        android:background="@drawable/bottom_nav_line"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintHorizontal_bias="0.6"
         app:layout_constraintLeft_toLeftOf="parent"
