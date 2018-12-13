@@ -2,45 +2,11 @@ package com.jmulla.ukc;
 
 import android.util.Pair;
 
-public class IncreasesDecreases {
-
-
+class IncreasesDecreases {
 
     private static String knitBet2_1Inner;
     private static String knitBet2_2Inner;
     private static String kntiBet2_3Inner;
-
-    /*
-    public static void main(String[] args){
-        Scanner scanner = new Scanner(System.in);
-        System.out.print(">>> ");
-        while (true){
-            String input = scanner.nextLine();
-            switch (input) {
-                case "q":
-                    scanner.close();
-                    return;
-                case "i": {
-                    int curStitches = scanner.nextInt();
-                    int inc = scanner.nextInt();
-                    increase(curStitches, inc);
-                    continue;
-                }
-                case "d": {
-                    int curStitches = scanner.nextInt();
-                    int dec = scanner.nextInt();
-                    decrease(curStitches, dec);
-                }
-            }
-        }
-
-    }
-
-
-
-
-
-     */
 
 
     static Pair<String, String> increase(int stitches, int incStitches) {
@@ -54,8 +20,6 @@ public class IncreasesDecreases {
         double knitBet1 = Math.floor(stitches_1 / times1_1) - 1;
 
         double knitEnd1 = stitches_1 - (knitBet1 + 1) * times1_1;
-
-
         // calculate second
 
         double highTimes = stitches_1 % times1_1;
@@ -111,8 +75,6 @@ public class IncreasesDecreases {
                         cleanInner((int) knitBeg2, "M1, K%d ", "M1");
 
         return new Pair<>(method1, method2);
-        //p("Method 1 - (unbalanced): " + method1);
-        //p("Method 2 - (more balanced): " + method2);
 
     }
 
@@ -172,8 +134,6 @@ public class IncreasesDecreases {
         String end = cleanInner((int) knitEnd1, ", end with K%d", "");
         String method1 = m1S + (int) times1_1 + " times" + end;
 
-        //p("Method 1 - (unbalanced): " + method1);
-
         knitBet2_1Inner = cleanInner((int) knitBet2_1, "(k2tog, K%d) ", "k2tog ");
         knitBet2_2Inner = cleanInner((int) knitBet2_2, "(k2tog, K%d) ", "k2tog ");
         kntiBet2_3Inner = cleanInner((int) knitBet2_3, "(k2tog, K%d) ", "k2tog ");
@@ -185,7 +145,6 @@ public class IncreasesDecreases {
                         cleanInner((int) knitEnd2, "k2tog, K%d", "k2tog");
 
         return new Pair<>(method1, method2);
-        //p("Method 2 - (more balanced): " + method2);
     }
 
 

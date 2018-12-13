@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout
+  xmlns:android="http://schemas.android.com/apk/res/android"
+  xmlns:app="http://schemas.android.com/apk/res-auto"
+  android:layout_width="match_parent"
+  android:layout_height="match_parent">
+
+
+  <EditText
+    android:id="@+id/et_yardage"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:hint="yardage needed for pattern"
+    android:inputType="numberDecimal"
+    app:layout_constraintBottom_toTopOf="@+id/et_skein_weight"
+    app:layout_constraintEnd_toEndOf="parent"
+    app:layout_constraintStart_toStartOf="parent"
+    app:layout_constraintTop_toTopOf="parent"/>
+
+
+  <EditText
+    android:id="@+id/et_skein_weight"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:hint="weight of skein"
+    android:inputType="numberDecimal"
+    app:layout_constraintBottom_toTopOf="@+id/et_skein_yardage"
+    app:layout_constraintEnd_toEndOf="parent"
+    app:layout_constraintStart_toStartOf="parent"
+    app:layout_constraintTop_toBottomOf="@id/et_yardage"/>
+
+
+  <EditText
+    android:id="@+id/et_skein_yardage"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:hint="yardage of skein"
+    android:inputType="numberDecimal"
+    app:layout_constraintBottom_toTopOf="@+id/btn_convert"
+    app:layout_constraintEnd_toEndOf="parent"
+    app:layout_constraintStart_toStartOf="parent"
+    app:layout_constraintTop_toBottomOf="@id/et_skein_weight"/>
+
+  <Button
+    android:id="@+id/btn_convert"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:text="Calculate"
+    app:layout_constraintTop_toBottomOf="@+id/et_skein_yardage"
+    app:layout_constraintBottom_toTopOf="@+id/tv_yarn_weight"
+    app:layout_constraintEnd_toEndOf="parent"
+    app:layout_constraintStart_toStartOf="parent"
+    />
+
+  <TextView
+    android:id="@+id/tv_yarn_weight"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    app:layout_constraintTop_toBottomOf="@+id/btn_convert"
+    app:layout_constraintBottom_toTopOf="@+id/tv_num_balls"
+    app:layout_constraintEnd_toEndOf="parent"
+    app:layout_constraintStart_toStartOf="parent"
+    />
+
+
+  <TextView
+    android:id="@+id/tv_num_balls"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    app:layout_constraintBottom_toBottomOf="parent"
+    app:layout_constraintEnd_toEndOf="parent"
+    app:layout_constraintStart_toStartOf="parent"
+    app:layout_constraintTop_toBottomOf="@+id/tv_yarn_weight"
+    />
+</android.support.constraint.ConstraintLayout>
