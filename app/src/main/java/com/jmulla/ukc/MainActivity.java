@@ -27,6 +27,7 @@ import android.widget.RadioGroup;
 import android.widget.Switch;
 import android.widget.TextView;
 import android.widget.Toast;
+import java.util.Objects;
 
 import static com.jmulla.ukc.IncreasesDecreases.decrease;
 import static com.jmulla.ukc.IncreasesDecreases.increase;
@@ -133,34 +134,29 @@ public class MainActivity extends AppCompatActivity {
   }
 
   private void calculateAndSetTVs() {
-    boolean success = false;
-    int stitches = 0;
+    int stitches;
+    int changes;
     try {
-      stitches = Integer.parseInt(et_num_stitches.getText().toString());
-      success = true;
+      stitches = Integer.parseInt(Objects.requireNonNull(et_num_stitches.getText()).toString());
     } catch (Exception e) {
-      e.printStackTrace();
+      return;
     }
-    int changes = 0;
     try {
-      changes = Integer.parseInt(et_num_change.getText().toString());
-      success = true;
+      changes = Integer.parseInt(Objects.requireNonNull(et_num_change.getText()).toString());
     } catch (Exception e) {
-      e.printStackTrace();
+      return;
     }
-    if (success) {
-      if (switch_mode.getCheckedRadioButtonId() == btn_increase.getId()) {
-        Pair<String, String> increase = increase(stitches, changes);
-        tv_method1.setText(increase.first);
-        tv_method2.setText(increase.second);
-      } else if (switch_mode.getCheckedRadioButtonId() == btn_decrease.getId()) {
-        Pair<String, String> decrease = decrease(stitches, changes);
-        tv_method1.setText(decrease.first);
-        tv_method2.setText(decrease.second);
-      }
-      tv_method1.setVisibility(View.VISIBLE);
-      tv_method2.setVisibility(View.VISIBLE);
+    if (switch_mode.getCheckedRadioButtonId() == btn_increase.getId()) {
+      Pair<String, String> increase = increase(stitches, changes);
+      tv_method1.setText(increase.first);
+      tv_method2.setText(increase.second);
+    } else if (switch_mode.getCheckedRadioButtonId() == btn_decrease.getId()) {
+      Pair<String, String> decrease = decrease(stitches, changes);
+      tv_method1.setText(decrease.first);
+      tv_method2.setText(decrease.second);
     }
+    tv_method1.setVisibility(View.VISIBLE);
+    tv_method2.setVisibility(View.VISIBLE);
 
   }
 

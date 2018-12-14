@@ -11,6 +11,9 @@ class Conversions {
    * coneWeight must be in grams
    */
   static Pair<Double, Double> calculateAmounts(double patternYarn, double ballWeight, double ballYardage) {
+    if (patternYarn <= 0 || ballWeight <= 0 || ballYardage <= 0){
+      return null;
+    }
     double weight = roundToDP(patternYarn * ballWeight/ballYardage, 2);
     double numBalls = roundToDP(weight / ballWeight, 2);
     return new Pair<>(weight, numBalls);
