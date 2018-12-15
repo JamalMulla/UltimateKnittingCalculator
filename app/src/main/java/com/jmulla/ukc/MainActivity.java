@@ -1,47 +1,24 @@
 package com.jmulla.ukc;
 
 import android.app.ActivityManager;
-import android.content.Intent;
-import android.content.res.ColorStateList;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.graphics.Color;
+import android.graphics.PorterDuff.Mode;
+import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.design.widget.BottomNavigationView;
-import android.support.design.widget.TextInputEditText;
-import android.support.design.widget.TextInputLayout;
+import android.support.v4.content.ContextCompat;
+import android.support.v4.view.ViewPager.OnPageChangeListener;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
-import android.text.Editable;
-import android.text.TextWatcher;
-import android.util.Pair;
-import android.view.KeyEvent;
 import android.view.MenuItem;
-import android.view.View;
-import android.widget.Button;
-import android.widget.CompoundButton;
-import android.widget.EditText;
-import android.widget.RadioButton;
-import android.widget.RadioGroup;
-import android.widget.Switch;
-import android.widget.TextView;
 import android.widget.Toast;
-import java.util.Objects;
-
-import static com.jmulla.ukc.IncreasesDecreases.decrease;
-import static com.jmulla.ukc.IncreasesDecreases.increase;
 
 public class MainActivity extends AppCompatActivity {
-
-  private RadioGroup switch_mode;
-  private RadioButton btn_increase;
-  private RadioButton btn_decrease;
-  private TextInputEditText et_num_stitches;
-  private TextInputEditText et_num_change;
-  private TextInputLayout til;
-  private TextView tv_method2;
-  private TextView tv_method1;
+  NavViewPager viewPager;
 
   private BottomNavigationView.OnNavigationItemSelectedListener mOnNavigationItemSelectedListener
       = new BottomNavigationView.OnNavigationItemSelectedListener() {
@@ -50,10 +27,10 @@ public class MainActivity extends AppCompatActivity {
     public boolean onNavigationItemSelected(@NonNull MenuItem item) {
       switch (item.getItemId()) {
         case R.id.navigation_home:
+          viewPager.setCurrentItem(0);
           return true;
         case R.id.navigation_dashboard:
-          Intent intent = new Intent(MainActivity.this, ConversionActivity.class);
-          startActivity(intent);
+          viewPager.setCurrentItem(1);
           return true;
         case R.id.navigation_notifications:
           return false;
@@ -63,14 +40,21 @@ public class MainActivity extends AppCompatActivity {
   };
 
 
+
   @Override
   protected void onCreate(Bundle savedInstanceState) {
     //Changes color of taskbar
     Bitmap bm = BitmapFactory.decodeResource(getResources(), getApplicationInfo().icon);
     if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.LOLLIPOP) {
-      int color = getResources().getColor(R.color.grey900);
-      ActivityManager.TaskDescription taskDesc = new ActivityManager.TaskDescription(
-          "Knitting Calculator", bm, color);
+      int color = ContextCompat.getColor(this, R.color.grey900);
+      ActivityManager.TaskDescription taskDesc;
+      if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.P) {
+        taskDesc = new ActivityManager.TaskDescription(
+            "Knitting Calculator", bm, color);
+      } else {
+        taskDesc = new ActivityManager.TaskDescription(
+            "Knitting Calculator", null, color);
+      }
       this.setTaskDescription(taskDesc);
     }
 
@@ -78,86 +62,37 @@ public class MainActivity extends AppCompatActivity {
     setContentView(R.layout.activity_main);
     final Toolbar myToolbar = findViewById(R.id.my_toolbar);
     setSupportActionBar(myToolbar);
+
     //Removes the default title so we can use the custom one
     ActionBar supportActionBar = getSupportActionBar();
     if (supportActionBar != null) {
       supportActionBar.setDisplayShowTitleEnabled(false);
     }
-    BottomNavigationView navigation = findViewById(R.id.navigation);
+    final BottomNavigationView navigation = findViewById(R.id.navigation);
     navigation.setOnNavigationItemSelectedListener(mOnNavigationItemSelectedListener);
-
-    switch_mode = findViewById(R.id.switch_mode);
-    btn_increase = findViewById(R.id.btn_increase);
-    btn_decrease = findViewById(R.id.btn_decrease);
-    Button btn_calc = findViewById(R.id.btn_calc);
-    Button btn_clear = findViewById(R.id.btn_clear);
-    et_num_stitches = findViewById(R.id.et_num_stitches);
-    et_num_change = findViewById(R.id.et_num_change);
-    til = findViewById(R.id.textInputLayout);
-    tv_method1 = findViewById(R.id.tv_method1);
-    tv_method2 = findViewById(R.id.tv_method2);
-
-    btn_calc.setOnClickListener(new View.OnClickListener() {
+    viewPager = findViewById(R.id.nav_viewpager);
+    final ViewPagerAdapter adapter = new ViewPagerAdapter (MainActivity.this.getSupportFragmentManager());
+    adapter.addFragment(new IncDecFragement(), "inc_dec_fragment");
+    adapter.addFragment(new ConversionFragment(), "conv_fragment");
+    viewPager.addOnPageChangeListener(new OnPageChangeListener() {
+      // This method will be invoked when the current page is scrolled
       @Override
-      public void onClick(View view) {
-        calculateAndSetTVs();
+      public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
+      }
+
+      @Override
+      public void onPageSelected(int position) {
+        navigation.getMenu().getItem(position).setChecked(true);
+      }
+      // Called when the scroll state changes:
+      // SCROLL_STATE_IDLE, SCROLL_STATE_DRAGGING, SCROLL_STATE_SETTLING
+      @Override
+      public void onPageScrollStateChanged(int state) {
+
       }
     });
-
-    btn_clear.setOnClickListener(new View.OnClickListener() {
-      @Override
-      public void onClick(View view) {
-        et_num_stitches.setText("");
-        et_num_change.setText("");
-        et_num_stitches.requestFocus();
-        tv_method1.setText("");
-        tv_method2.setText("");
-        tv_method1.setVisibility(View.GONE);
-        tv_method2.setVisibility(View.GONE);
-      }
-    });
-
-    switch_mode.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
-      @Override
-      public void onCheckedChanged(RadioGroup radioGroup, int i) {
-        if (radioGroup.getCheckedRadioButtonId() == btn_increase.getId()) {
-          til.setHint("No. to increase");
-        }
-        if (radioGroup.getCheckedRadioButtonId() == btn_decrease.getId()) {
-          til.setHint("No. to decrease");
-        }
-        calculateAndSetTVs();
-      }
-    });
-
+    viewPager.setAdapter(adapter);
+    viewPager.setCurrentItem(0);
 
   }
-
-  private void calculateAndSetTVs() {
-    int stitches;
-    int changes;
-    try {
-      stitches = Integer.parseInt(Objects.requireNonNull(et_num_stitches.getText()).toString());
-    } catch (Exception e) {
-      return;
-    }
-    try {
-      changes = Integer.parseInt(Objects.requireNonNull(et_num_change.getText()).toString());
-    } catch (Exception e) {
-      return;
-    }
-    if (switch_mode.getCheckedRadioButtonId() == btn_increase.getId()) {
-      Pair<String, String> increase = increase(stitches, changes);
-      tv_method1.setText(increase.first);
-      tv_method2.setText(increase.second);
-    } else if (switch_mode.getCheckedRadioButtonId() == btn_decrease.getId()) {
-      Pair<String, String> decrease = decrease(stitches, changes);
-      tv_method1.setText(decrease.first);
-      tv_method2.setText(decrease.second);
-    }
-    tv_method1.setVisibility(View.VISIBLE);
-    tv_method2.setVisibility(View.VISIBLE);
-
-  }
-
 }

@@ -3,9 +3,7 @@
   xmlns:android="http://schemas.android.com/apk/res/android"
   xmlns:app="http://schemas.android.com/apk/res-auto"
   android:layout_width="match_parent"
-  android:layout_height="match_parent"
-  android:background="?attr/backgroundColor"
-  >
+  android:layout_height="match_parent">
 
   <android.support.design.widget.TextInputLayout
     android:id="@+id/til_yardage"
@@ -22,6 +20,7 @@
     app:layout_constraintEnd_toStartOf="@+id/gl_left_convert_v"
     app:layout_constraintStart_toStartOf="@+id/gl_right_convert_v"
     app:layout_constraintTop_toTopOf="parent"
+    app:layout_constraintVertical_bias="0.16000003"
     app:layout_constraintVertical_chainStyle="packed"
     app:theme="@style/AppTheme">
 
