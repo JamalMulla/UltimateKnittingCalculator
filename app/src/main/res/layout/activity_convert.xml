@@ -10,7 +10,7 @@
     style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
     android:layout_width="0dp"
     android:layout_height="wrap_content"
-    android:layout_marginTop="8dp"
+    android:layout_marginTop="32dp"
     android:layout_marginBottom="8dp"
     android:layout_marginStart="8dp"
     android:layout_marginEnd="8dp"
@@ -20,7 +20,7 @@
     app:layout_constraintEnd_toStartOf="@+id/gl_left_convert_v"
     app:layout_constraintStart_toStartOf="@+id/gl_right_convert_v"
     app:layout_constraintTop_toTopOf="parent"
-    app:layout_constraintVertical_bias="0.16000003"
+    app:layout_constraintVertical_bias="0.26"
     app:layout_constraintVertical_chainStyle="packed"
     app:theme="@style/AppTheme">
 
@@ -76,10 +76,10 @@
     android:layout_marginEnd="8dp"
     android:hint="Yardage of skein/ball"
     app:boxStrokeWidth="1dp"
-    app:layout_constraintBottom_toTopOf="@+id/btn_convert"
-    app:layout_constraintEnd_toStartOf="@+id/gl_left_convert_v"
-    app:layout_constraintStart_toStartOf="@+id/gl_right_convert_v"
     app:layout_constraintTop_toBottomOf="@id/til_weight"
+    app:layout_constraintStart_toStartOf="@+id/gl_right_convert_v"
+    app:layout_constraintEnd_toStartOf="@+id/gl_left_convert_v"
+    app:layout_constraintHorizontal_bias="0.75"
     app:theme="@style/AppTheme">
 
     <android.support.design.widget.TextInputEditText
@@ -97,42 +97,67 @@
 
   <android.support.design.button.MaterialButton
     android:id="@+id/btn_convert"
-    android:layout_width="0dp"
+    android:layout_width="wrap_content"
     android:layout_height="wrap_content"
-    android:layout_marginTop="16dp"
-    android:layout_marginBottom="8dp"
+    android:layout_marginTop="8dp"
+    android:layout_marginBottom="16dp"
     android:layout_marginStart="8dp"
     android:layout_marginEnd="8dp"
+    android:elevation="0dp"
     android:text="Calculate"
-    app:layout_constraintBottom_toTopOf="@+id/tv_yarn_weight"
-    app:layout_constraintEnd_toStartOf="@+id/gl_left_convert_v"
-    app:layout_constraintHorizontal_bias="1.0"
+    app:layout_constraintTop_toBottomOf="@+id/til_skein_yardage"
     app:layout_constraintStart_toStartOf="@+id/gl_right_convert_v"
-    app:layout_constraintTop_toBottomOf="@+id/til_skein_yardage"/>
+    app:layout_constraintEnd_toStartOf="@+id/btn_convert_clear"
+    app:layout_constraintBottom_toTopOf="@+id/gl_convert_h"
+    app:layout_constraintHorizontal_chainStyle="spread_inside"
+    app:layout_constraintVertical_chainStyle="spread_inside"
+    />
+
+  <android.support.design.button.MaterialButton
+    android:id="@+id/btn_convert_clear"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:layout_marginTop="8dp"
+    android:layout_marginBottom="16dp"
+    android:layout_marginEnd="8dp"
+    android:elevation="0dp"
+    android:text="Clear"
+    android:textColor="@color/white"
+    app:backgroundTint="?attr/backgroundColor"
+    app:layout_constraintTop_toBottomOf="@+id/til_skein_yardage"
+    app:layout_constraintStart_toEndOf="@+id/btn_convert"
+    app:layout_constraintEnd_toStartOf="@+id/gl_left_convert_v"
+    app:layout_constraintBottom_toTopOf="@+id/gl_convert_h"
+    app:strokeColor="@color/colorAccent"
+    app:strokeWidth="1dp"/>
+
 
   <TextView
     android:id="@+id/tv_yarn_weight"
     android:layout_width="0dp"
     android:layout_height="wrap_content"
-    android:layout_marginTop="32dp"
     android:layout_marginStart="8dp"
     android:layout_marginEnd="8dp"
+    android:visibility="gone"
     app:layout_constraintBottom_toTopOf="@+id/tv_num_balls"
     app:layout_constraintEnd_toStartOf="@+id/gl_left_convert_v"
     app:layout_constraintStart_toStartOf="@+id/gl_right_convert_v"
-    app:layout_constraintTop_toBottomOf="@+id/btn_convert"/>
+    app:layout_constraintTop_toBottomOf="@+id/btn_convert"
+    />
 
   <TextView
     android:id="@+id/tv_num_balls"
     android:layout_width="0dp"
     android:layout_height="wrap_content"
-    android:layout_marginTop="32dp"
+    android:layout_marginTop="8dp"
     android:layout_marginStart="8dp"
     android:layout_marginEnd="8dp"
+    android:visibility="gone"
     app:layout_constraintBottom_toBottomOf="parent"
     app:layout_constraintEnd_toStartOf="@+id/gl_left_convert_v"
     app:layout_constraintStart_toStartOf="@+id/gl_right_convert_v"
-    app:layout_constraintTop_toBottomOf="@+id/tv_yarn_weight"/>
+    app:layout_constraintTop_toBottomOf="@+id/tv_yarn_weight"
+    />
 
   <android.support.constraint.Guideline
     android:id="@+id/gl_right_convert_v"
@@ -147,5 +172,12 @@
     android:layout_height="wrap_content"
     android:orientation="vertical"
     app:layout_constraintGuide_end="32dp"/>
+
+  <android.support.constraint.Guideline
+    android:id="@+id/gl_convert_h"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:orientation="horizontal"
+    app:layout_constraintGuide_begin="286dp"/>
 
 </android.support.constraint.ConstraintLayout>

@@ -66,6 +66,8 @@ public class ConversionFragment extends Fragment {
           String num_balls = String.valueOf(doubleDoublePair.second);
           tv_num_balls.setText(String
               .format("This is %s skeins (cones, balls). Best to round up when buying", num_balls));
+          tv_yarn_weight.setVisibility(View.VISIBLE);
+          tv_num_balls.setVisibility(View.VISIBLE);
         }
       }
     });

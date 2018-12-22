@@ -114,10 +114,10 @@
     android:layout_marginEnd="8dp"
     android:hint="No. to increase"
     app:boxStrokeWidth="1dp"
+    app:layout_constraintTop_toBottomOf="@+id/textInputLayout2"
+    app:layout_constraintStart_toStartOf="@+id/gl_left_main_v"
     app:layout_constraintEnd_toStartOf="@+id/gl_right_main_v"
     app:layout_constraintHorizontal_bias="0.75"
-    app:layout_constraintStart_toStartOf="@+id/gl_left_main_v"
-    app:layout_constraintTop_toBottomOf="@+id/textInputLayout2"
     app:theme="@style/AppTheme">
 
     <android.support.design.widget.TextInputEditText
@@ -146,11 +146,11 @@
     android:text="Calculate"
     android:textColor="@color/white"
     app:backgroundTint="@color/colorAccent"
-    app:layout_constraintBottom_toTopOf="@+id/gl_center_h"
-    app:layout_constraintEnd_toStartOf="@+id/btn_clear"
-    app:layout_constraintHorizontal_chainStyle="spread_inside"
-    app:layout_constraintStart_toStartOf="@+id/gl_left_main_v"
     app:layout_constraintTop_toBottomOf="@+id/textInputLayout"
+    app:layout_constraintStart_toStartOf="@+id/gl_left_main_v"
+    app:layout_constraintEnd_toStartOf="@+id/btn_clear"
+    app:layout_constraintBottom_toTopOf="@+id/gl_center_h"
+    app:layout_constraintHorizontal_chainStyle="spread_inside"
     app:layout_constraintVertical_chainStyle="spread_inside"
     />
 
@@ -165,10 +165,10 @@
     android:text="Clear"
     android:textColor="@color/white"
     app:backgroundTint="?attr/backgroundColor"
-    app:layout_constraintBottom_toTopOf="@+id/gl_center_h"
-    app:layout_constraintEnd_toStartOf="@+id/gl_right_main_v"
-    app:layout_constraintStart_toEndOf="@+id/btn_calc"
     app:layout_constraintTop_toBottomOf="@+id/textInputLayout"
+    app:layout_constraintStart_toEndOf="@+id/btn_calc"
+    app:layout_constraintEnd_toStartOf="@+id/gl_right_main_v"
+    app:layout_constraintBottom_toTopOf="@+id/gl_center_h"
     app:strokeColor="@color/colorAccent"
     app:strokeWidth="1dp"/>
 
@@ -184,10 +184,11 @@
     android:textAlignment="center"
     android:textColor="@color/white"
     android:visibility="gone"
-    app:layout_constraintBottom_toTopOf="@+id/tv_method2"
-    app:layout_constraintEnd_toStartOf="@+id/gl_right_main_v"
+    app:layout_constraintTop_toBottomOf="@+id/btn_calc"
     app:layout_constraintStart_toStartOf="@+id/gl_left_main_v"
-    app:layout_constraintTop_toBottomOf="@+id/btn_calc"/>
+    app:layout_constraintEnd_toStartOf="@+id/gl_right_main_v"
+    app:layout_constraintBottom_toTopOf="@+id/tv_method2"
+    />
 
   <TextView
     android:id="@+id/tv_method2"
@@ -201,8 +202,9 @@
     android:textAlignment="center"
     android:textColor="@color/white"
     android:visibility="gone"
-    app:layout_constraintBottom_toBottomOf="parent"
-    app:layout_constraintEnd_toStartOf="@+id/gl_right_main_v"
+    app:layout_constraintTop_toBottomOf="@+id/tv_method1"
     app:layout_constraintStart_toStartOf="@+id/gl_left_main_v"
-    app:layout_constraintTop_toBottomOf="@+id/tv_method1"/>
+    app:layout_constraintEnd_toStartOf="@+id/gl_right_main_v"
+    app:layout_constraintBottom_toBottomOf="parent"
+    />
 </android.support.constraint.ConstraintLayout>

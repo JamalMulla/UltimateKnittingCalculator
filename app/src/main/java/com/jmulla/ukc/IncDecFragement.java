@@ -86,13 +86,6 @@ public class IncDecFragement extends Fragment {
         calculateAndSetTVs();
       }
     });
-
-    if (savedInstanceState != null) {
-      //Restore the fragment's state here
-      int visible = savedInstanceState.getInt("visible");
-      tv_method1.setVisibility(visible);
-      tv_method2.setVisibility(visible);
-    }
   }
 
   private void calculateAndSetTVs() {
