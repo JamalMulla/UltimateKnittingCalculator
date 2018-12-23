@@ -64,9 +64,9 @@ public class IncDecFragement extends Fragment {
     btn_clear.setOnClickListener(new View.OnClickListener() {
       @Override
       public void onClick(View view) {
+        et_num_stitches.requestFocus();
         et_num_stitches.setText("");
         et_num_change.setText("");
-        et_num_stitches.requestFocus();
         tv_method1.setText("");
         tv_method2.setText("");
         tv_method1.setVisibility(View.GONE);

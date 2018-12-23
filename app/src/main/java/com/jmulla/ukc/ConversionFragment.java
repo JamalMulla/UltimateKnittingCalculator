@@ -31,9 +31,24 @@ public class ConversionFragment extends Fragment {
     final EditText et_yardage = activity.findViewById(R.id.et_yardage);
     final EditText et_skein_weight = activity.findViewById(R.id.et_skein_weight);
     final EditText et_skein_yardage = activity.findViewById(R.id.et_skein_yardage);
-    Button btn_convert = activity.findViewById(R.id.btn_convert);
     final TextView tv_yarn_weight = activity.findViewById(R.id.tv_yarn_weight);
     final TextView tv_num_balls = activity.findViewById(R.id.tv_num_balls);
+    Button btn_convert = activity.findViewById(R.id.btn_convert);
+    Button btn_clear = activity.findViewById(R.id.btn_convert_clear);
+
+    btn_clear.setOnClickListener(new OnClickListener() {
+      @Override
+      public void onClick(View view) {
+        et_yardage.requestFocus();
+        et_yardage.setText("");
+        et_skein_weight.setText("");
+        et_skein_yardage.setText("");
+        tv_yarn_weight.setText("");
+        tv_num_balls.setText("");
+        tv_yarn_weight.setVisibility(View.GONE);
+        tv_num_balls.setVisibility(View.GONE);
+      }
+    });
 
     btn_convert.setOnClickListener(new OnClickListener() {
       @Override

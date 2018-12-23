@@ -12,6 +12,7 @@ import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
+import android.view.View;
 
 public class MainActivity extends AppCompatActivity {
   NavViewPager viewPager;
@@ -70,6 +71,8 @@ public class MainActivity extends AppCompatActivity {
     final ViewPagerAdapter adapter = new ViewPagerAdapter (MainActivity.this.getSupportFragmentManager());
     adapter.addFragment(new IncDecFragement(), "inc_dec_fragment");
     adapter.addFragment(new ConversionFragment(), "conv_fragment");
+
+
     viewPager.addOnPageChangeListener(new OnPageChangeListener() {
       // This method will be invoked when the current page is scrolled
       @Override

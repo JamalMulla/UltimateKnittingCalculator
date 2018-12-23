@@ -8,6 +8,7 @@
         <item name="colorAccent">@color/colorAccent</item>
         <item name="backgroundColor">@color/grey900</item>
         <item name="android:statusBarColor">?attr/backgroundColor</item>
+        <item name="android:windowBackground">?attr/backgroundColor</item>
     </style>
 
 </resources>
