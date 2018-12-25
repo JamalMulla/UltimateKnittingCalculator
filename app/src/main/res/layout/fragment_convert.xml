@@ -7,14 +7,14 @@
 
 
   <android.support.constraint.Guideline
-    android:id="@+id/gl_right_convert_v"
+    android:id="@+id/gl_left_convert_v"
     android:layout_width="wrap_content"
     android:layout_height="wrap_content"
     android:orientation="vertical"
     app:layout_constraintGuide_begin="32dp"/>
 
   <android.support.constraint.Guideline
-    android:id="@+id/gl_left_convert_v"
+    android:id="@+id/gl_right_convert_v"
     android:layout_width="wrap_content"
     android:layout_height="wrap_content"
     android:orientation="vertical"
@@ -25,10 +25,30 @@
     android:layout_width="wrap_content"
     android:layout_height="wrap_content"
     android:orientation="horizontal"
-    app:layout_constraintGuide_begin="286dp"/>
+    app:layout_constraintGuide_begin="335dp"/>
+
+  <android.support.constraint.Guideline
+    android:id="@+id/gl_spinner_v"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:orientation="vertical"
+    app:layout_constraintGuide_begin="225dp"/>
+
+  <android.support.v7.widget.AppCompatSpinner
+    android:id="@+id/spinner_yardage"
+    style="@android:style/Widget.Material.Spinner.Underlined"
+    android:layout_width="0dp"
+    android:layout_height="0dp"
+    android:padding="0dp"
+    android:spinnerMode="dialog"
+    app:layout_constraintBottom_toBottomOf="@+id/til_project_yarn"
+    app:layout_constraintEnd_toStartOf="@+id/gl_right_convert_v"
+    app:layout_constraintStart_toEndOf="@id/gl_spinner_v"
+    app:layout_constraintTop_toTopOf="@+id/til_project_yarn"/>
+
 
   <android.support.design.widget.TextInputLayout
-    android:id="@+id/til_yardage"
+    android:id="@+id/til_project_yarn"
     style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
     android:layout_width="0dp"
     android:layout_height="wrap_content"
@@ -36,12 +56,13 @@
     android:layout_marginBottom="8dp"
     android:layout_marginStart="8dp"
     android:layout_marginEnd="8dp"
-    android:hint="Yardage needed for pattern"
+    android:hint="@string/til_pattern_yarn_hint"
     app:boxStrokeWidth="1dp"
+    app:layout_constraintBottom_toTopOf="@+id/til_skein_weight"
+    app:layout_constraintEnd_toStartOf="@+id/gl_spinner_v"
     app:layout_constraintHorizontal_bias="0.75"
-    app:layout_constraintBottom_toTopOf="@+id/til_weight"
-    app:layout_constraintEnd_toStartOf="@+id/gl_left_convert_v"
-    app:layout_constraintStart_toStartOf="@+id/gl_right_convert_v"
+    app:layout_constraintHorizontal_chainStyle="spread"
+    app:layout_constraintStart_toStartOf="@+id/gl_left_convert_v"
     app:layout_constraintTop_toTopOf="parent"
     app:layout_constraintVertical_chainStyle="spread"
     app:theme="@style/AppTheme">
@@ -58,8 +79,21 @@
 
   </android.support.design.widget.TextInputLayout>
 
+
+  <android.support.v7.widget.AppCompatSpinner
+    android:id="@+id/spinner_weight"
+    style="@android:style/Widget.Material.Spinner.Underlined"
+    android:layout_width="0dp"
+    android:layout_height="0dp"
+    android:padding="0dp"
+    android:spinnerMode="dialog"
+    app:layout_constraintBottom_toBottomOf="@+id/til_skein_weight"
+    app:layout_constraintEnd_toStartOf="@+id/gl_right_convert_v"
+    app:layout_constraintStart_toEndOf="@id/gl_spinner_v"
+    app:layout_constraintTop_toTopOf="@+id/til_skein_weight"/>
+
   <android.support.design.widget.TextInputLayout
-    android:id="@+id/til_weight"
+    android:id="@+id/til_skein_weight"
     style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
     android:layout_width="0dp"
     android:layout_height="wrap_content"
@@ -67,13 +101,13 @@
     android:layout_marginBottom="8dp"
     android:layout_marginStart="8dp"
     android:layout_marginEnd="8dp"
-    android:hint="Weight of skein/ball"
+    android:hint="@string/til_skein_weight_hint"
     app:boxStrokeWidth="1dp"
-    app:layout_constraintHorizontal_bias="0.75"
     app:layout_constraintBottom_toTopOf="@+id/til_skein_yardage"
-    app:layout_constraintEnd_toStartOf="@+id/gl_left_convert_v"
-    app:layout_constraintStart_toStartOf="@+id/gl_right_convert_v"
-    app:layout_constraintTop_toBottomOf="@id/til_yardage"
+    app:layout_constraintEnd_toStartOf="@+id/gl_spinner_v"
+    app:layout_constraintHorizontal_bias="0.75"
+    app:layout_constraintStart_toStartOf="@+id/gl_left_convert_v"
+    app:layout_constraintTop_toBottomOf="@id/til_project_yarn"
     app:theme="@style/AppTheme">
 
     <android.support.design.widget.TextInputEditText
@@ -88,6 +122,18 @@
       />
   </android.support.design.widget.TextInputLayout>
 
+  <android.support.v7.widget.AppCompatSpinner
+    android:id="@+id/spinner_skein_yardage"
+    style="@android:style/Widget.Material.Spinner.Underlined"
+    android:layout_width="0dp"
+    android:layout_height="0dp"
+    android:padding="0dp"
+    android:spinnerMode="dialog"
+    app:layout_constraintBottom_toBottomOf="@+id/til_skein_yardage"
+    app:layout_constraintEnd_toStartOf="@+id/gl_right_convert_v"
+    app:layout_constraintStart_toEndOf="@id/gl_spinner_v"
+    app:layout_constraintTop_toTopOf="@+id/til_skein_yardage"/>
+
 
   <android.support.design.widget.TextInputLayout
     android:id="@+id/til_skein_yardage"
@@ -97,13 +143,13 @@
     android:layout_marginTop="8dp"
     android:layout_marginStart="8dp"
     android:layout_marginEnd="8dp"
-    android:hint="Yardage of skein/ball"
+    android:hint="@string/til_skein_yardage_hint"
     app:boxStrokeWidth="1dp"
     app:layout_constraintBottom_toTopOf="@+id/btn_convert"
-    app:layout_constraintEnd_toStartOf="@+id/gl_left_convert_v"
+    app:layout_constraintEnd_toStartOf="@+id/gl_spinner_v"
     app:layout_constraintHorizontal_bias="0.75"
-    app:layout_constraintStart_toStartOf="@+id/gl_right_convert_v"
-    app:layout_constraintTop_toBottomOf="@id/til_weight"
+    app:layout_constraintStart_toStartOf="@+id/gl_left_convert_v"
+    app:layout_constraintTop_toBottomOf="@id/til_skein_weight"
     app:theme="@style/AppTheme">
 
     <android.support.design.widget.TextInputEditText
@@ -128,12 +174,12 @@
     android:layout_marginStart="8dp"
     android:layout_marginEnd="8dp"
     android:elevation="0dp"
-    android:text="Calculate"
-    app:layout_constraintTop_toBottomOf="@+id/til_skein_yardage"
-    app:layout_constraintStart_toStartOf="@+id/gl_right_convert_v"
-    app:layout_constraintEnd_toStartOf="@+id/btn_convert_clear"
+    android:text="@string/btn_calculate"
     app:layout_constraintBottom_toTopOf="@+id/gl_convert_h"
+    app:layout_constraintEnd_toStartOf="@+id/btn_convert_clear"
     app:layout_constraintHorizontal_chainStyle="spread_inside"
+    app:layout_constraintStart_toStartOf="@+id/gl_left_convert_v"
+    app:layout_constraintTop_toBottomOf="@+id/til_skein_yardage"
     app:layout_constraintVertical_chainStyle="spread_inside"
     />
 
@@ -145,13 +191,13 @@
     android:layout_marginBottom="16dp"
     android:layout_marginEnd="8dp"
     android:elevation="0dp"
-    android:text="Clear"
+    android:text="@string/btn_clear"
     android:textColor="@color/white"
     app:backgroundTint="?attr/backgroundColor"
-    app:layout_constraintTop_toBottomOf="@+id/til_skein_yardage"
-    app:layout_constraintStart_toEndOf="@+id/btn_convert"
-    app:layout_constraintEnd_toStartOf="@+id/gl_left_convert_v"
     app:layout_constraintBottom_toTopOf="@+id/gl_convert_h"
+    app:layout_constraintEnd_toStartOf="@+id/gl_right_convert_v"
+    app:layout_constraintStart_toEndOf="@+id/btn_convert"
+    app:layout_constraintTop_toBottomOf="@+id/til_skein_yardage"
     app:strokeColor="@color/colorAccent"
     app:strokeWidth="1dp"/>
 
@@ -162,14 +208,14 @@
     android:layout_height="wrap_content"
     android:layout_marginStart="8dp"
     android:layout_marginEnd="8dp"
-    android:textAlignment="center"
-    android:textColor="@color/white"
     android:padding="10dp"
     android:background="@drawable/pink_outline"
+    android:textAlignment="center"
+    android:textColor="@color/white"
     android:visibility="gone"
     app:layout_constraintBottom_toTopOf="@+id/tv_num_balls"
-    app:layout_constraintEnd_toStartOf="@+id/gl_left_convert_v"
-    app:layout_constraintStart_toStartOf="@+id/gl_right_convert_v"
+    app:layout_constraintEnd_toStartOf="@+id/gl_right_convert_v"
+    app:layout_constraintStart_toStartOf="@+id/gl_left_convert_v"
     app:layout_constraintTop_toBottomOf="@+id/btn_convert"/>
 
   <TextView
@@ -185,8 +231,8 @@
     android:textColor="@color/white"
     android:visibility="gone"
     app:layout_constraintBottom_toBottomOf="parent"
-    app:layout_constraintEnd_toStartOf="@+id/gl_left_convert_v"
-    app:layout_constraintStart_toStartOf="@+id/gl_right_convert_v"
+    app:layout_constraintEnd_toStartOf="@+id/gl_right_convert_v"
+    app:layout_constraintStart_toStartOf="@+id/gl_left_convert_v"
     app:layout_constraintTop_toBottomOf="@+id/tv_yarn_weight"/>
 
 

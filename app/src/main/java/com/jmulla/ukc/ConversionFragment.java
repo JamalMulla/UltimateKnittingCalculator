@@ -11,8 +11,10 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.ViewGroup;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.Spinner;
 import android.widget.TextView;
 
 public class ConversionFragment extends Fragment {
@@ -21,7 +23,7 @@ public class ConversionFragment extends Fragment {
   @Override
   public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container,
       Bundle savedInstanceState) {
-    return inflater.inflate(R.layout.activity_convert, container, false);
+    return inflater.inflate(R.layout.fragment_convert, container, false);
   }
 
   @Override
@@ -35,6 +37,25 @@ public class ConversionFragment extends Fragment {
     final TextView tv_num_balls = activity.findViewById(R.id.tv_num_balls);
     Button btn_convert = activity.findViewById(R.id.btn_convert);
     Button btn_clear = activity.findViewById(R.id.btn_convert_clear);
+    final Spinner spinner_yardage = activity.findViewById(R.id.spinner_yardage);
+    final Spinner spinner_weight = activity.findViewById(R.id.spinner_weight);
+    final Spinner spinner_skein_yardage = activity.findViewById(R.id.spinner_skein_yardage);
+
+    // Adapter for yardage
+    ArrayAdapter<String> yardage_adapter = new ArrayAdapter<>(activity, R.layout.custom_spinner_item);
+    yardage_adapter.add("Yards");
+    yardage_adapter.add("Metres");
+
+    ArrayAdapter<String> weight_adapter = new ArrayAdapter<>(activity, R.layout.custom_spinner_item);
+    weight_adapter.add("Grams");
+    weight_adapter.add("Ounces");
+
+    yardage_adapter.setDropDownViewResource(R.layout.simple_spinner_dropdown_item);
+    weight_adapter.setDropDownViewResource(R.layout.simple_spinner_dropdown_item);
+    spinner_yardage.setAdapter(yardage_adapter);
+    spinner_skein_yardage.setAdapter(yardage_adapter);
+    spinner_weight.setAdapter(weight_adapter);
+
 
     btn_clear.setOnClickListener(new OnClickListener() {
       @Override
@@ -55,7 +76,7 @@ public class ConversionFragment extends Fragment {
       public void onClick(View view) {
         double patternYarn;
         double ballWeight;
-        double ballYardage;
+        double ballYarn;
         try {
           patternYarn = Double.valueOf(et_yardage.getText().toString());
         } catch (NumberFormatException e) {
@@ -67,20 +88,39 @@ public class ConversionFragment extends Fragment {
           return;
         }
         try {
-          ballYardage = Double.valueOf(et_skein_yardage.getText().toString());
+          ballYarn = Double.valueOf(et_skein_yardage.getText().toString());
         } catch (NumberFormatException e) {
           return;
         }
-        Pair<Double, Double> doubleDoublePair = calculateAmounts(patternYarn, ballWeight,
-            ballYardage);
+        double patternYarnMetres = patternYarn;
+        double ballWeightGrams = ballWeight;
+        double ballYarnMetres = ballYarn;
+        if (spinner_yardage.getSelectedItem().toString().equals("Yards")){
+          patternYarnMetres = Utils.yardsToMetres(patternYarn);
+        }
+        if (spinner_weight.getSelectedItem().toString().equals("Ounces")){
+          ballWeightGrams = Utils.ouncesToGrams(ballWeight);
+        }
+        if (spinner_skein_yardage.getSelectedItem().toString().equals("Yards")){
+          ballYarnMetres = Utils.yardsToMetres(ballYarn);
+        }
+
+        Pair<Double, Double> doubleDoublePair = calculateAmounts(patternYarnMetres, ballWeightGrams,
+            ballYarnMetres);
         if (doubleDoublePair == null) {
           System.out.println("Invalid values\n");
         } else {
-          String yarn_weight = String.valueOf(doubleDoublePair.first);
-          tv_yarn_weight.setText(String.format("You will need %s grams of yarn.", yarn_weight));
-          String num_balls = String.valueOf(doubleDoublePair.second);
+          double yarn_weight = doubleDoublePair.first;
+          if (spinner_weight.getSelectedItem().toString().equals("Ounces")){
+            yarn_weight = Utils.roundToDP(Utils.gramsToOunces(yarn_weight), 1);
+            tv_yarn_weight.setText(String.format("You will need %s ounces of yarn.", yarn_weight));
+          }else {
+            tv_yarn_weight.setText(String.format("You will need %s grams of yarn.", Utils.roundToDP(yarn_weight, 1)));
+          }
+
+          String num_balls = String.valueOf(Utils.roundToDP(doubleDoublePair.second, 1));
           tv_num_balls.setText(String
-              .format("This is %s skeins (cones, balls). Best to round up when buying", num_balls));
+              .format("This is %s skeins/balls. Best to round up when buying", num_balls));
           tv_yarn_weight.setVisibility(View.VISIBLE);
           tv_num_balls.setVisibility(View.VISIBLE);
         }

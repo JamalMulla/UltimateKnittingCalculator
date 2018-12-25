@@ -1,8 +1,6 @@
 package com.jmulla.ukc;
 
 import android.support.v4.util.Pair;
-import java.math.BigDecimal;
-import java.math.RoundingMode;
 
 class Conversions {
 
@@ -14,14 +12,10 @@ class Conversions {
     if (patternYarn <= 0 || ballWeight <= 0 || ballYardage <= 0){
       return null;
     }
-    double weight = roundToDP(patternYarn * ballWeight/ballYardage, 2);
-    double numBalls = roundToDP(weight / ballWeight, 2);
+    double weight = patternYarn * ballWeight/ballYardage;
+    double numBalls = (weight / ballWeight);
     return new Pair<>(weight, numBalls);
   }
 
 
-
-  private static double roundToDP(double value, int places){
-    return new BigDecimal(value).setScale(places, RoundingMode.HALF_UP).doubleValue();
-  }
 }

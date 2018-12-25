@@ -1,5 +1,8 @@
 package com.jmulla.ukc;
 
+import java.math.BigDecimal;
+import java.math.RoundingMode;
+
 public class Utils {
 
   static double metresToYards(double metres) {
@@ -16,5 +19,9 @@ public class Utils {
 
   static double ouncesToGrams(double ounces) {
     return ounces * 28.3495;
+  }
+
+  static double roundToDP(double value, int places){
+    return new BigDecimal(value).setScale(places, RoundingMode.HALF_UP).doubleValue();
   }
 }

@@ -3,4 +3,13 @@
     <string name="title_home">Stitches</string>
     <string name="title_dashboard">Skeins</string>
     <string name="title_notifications">Notifications</string>
+    <string name="inc_dec_desc">This calculator allows you to calculate 2 different methods of increasing or decreasing your stitches.</string>
+    <string name="til_pattern_yarn_hint">Project yarn amount</string>
+    <string name="til_skein_weight_hint">Skein/ball weight</string>
+    <string name="til_skein_yardage_hint">Skein/ball yardage</string>
+    <string name="btn_calculate">Calculate</string>
+    <string name="btn_clear">Clear</string>
+    <string name="btn_increase">Increase</string>
+    <string name="btn_decrease">Decrease</string>
+    <string name="til_current_stitches">Current stitches</string>
 </resources>

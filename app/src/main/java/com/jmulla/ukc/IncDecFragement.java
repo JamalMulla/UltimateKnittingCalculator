@@ -50,7 +50,7 @@ public class IncDecFragement extends Fragment {
     Button btn_clear = activity.findViewById(R.id.btn_clear);
     et_num_stitches = activity.findViewById(R.id.et_num_stitches);
     et_num_change = activity.findViewById(R.id.et_num_change);
-    til = activity.findViewById(R.id.textInputLayout);
+    til = activity.findViewById(R.id.til_inc_dec);
     tv_method1 = activity.findViewById(R.id.tv_method1);
     tv_method2 = activity.findViewById(R.id.tv_method2);
 
@@ -94,11 +94,13 @@ public class IncDecFragement extends Fragment {
     try {
       stitches = Integer.parseInt(Objects.requireNonNull(et_num_stitches.getText()).toString());
     } catch (Exception e) {
+      Toast.makeText(getContext(), "Please input the number of stitches you are starting with", Toast.LENGTH_SHORT).show();
       return;
     }
     try {
       changes = Integer.parseInt(Objects.requireNonNull(et_num_change.getText()).toString());
     } catch (Exception e) {
+      Toast.makeText(getContext(), "Please input the number of stitches to increase/decrease by", Toast.LENGTH_SHORT).show();
       return;
     }
     if (switch_mode.getCheckedRadioButtonId() == btn_increase.getId()) {
