@@ -22,6 +22,6 @@ public class Utils {
   }
 
   static double roundToDP(double value, int places){
-    return new BigDecimal(value).setScale(places, RoundingMode.HALF_UP).doubleValue();
+    return new BigDecimal(value).setScale(places, RoundingMode.HALF_EVEN).doubleValue();
   }
 }

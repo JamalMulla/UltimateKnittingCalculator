@@ -7,6 +7,6 @@
     <color name="colorTransparent">#00ffffff</color>
     <color name="grey900">#212121</color>
 
-    <color name="white">#fff</color>
+    <color name="white">#fce4ec</color>
     <color name="mtrl_textinput_default_box_stroke_color" tools:override="true">@color/white</color>
 </resources>

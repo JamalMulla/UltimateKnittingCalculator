@@ -12,4 +12,6 @@
     <string name="btn_increase">Increase</string>
     <string name="btn_decrease">Decrease</string>
     <string name="til_current_stitches">Current stitches</string>
+    <string name="tv_dec_warning">Cannot decrease by more than half the number of stitches</string>
+    <string name="tv_inc_warning">Cannot increase by more than the number of current stitches</string>
 </resources>

@@ -31,6 +31,7 @@ public class IncDecFragement extends Fragment {
   private TextInputLayout til;
   private TextView tv_method2;
   private TextView tv_method1;
+  private TextView tv_inc_dec_warning;
 
 
   @Override
@@ -53,11 +54,13 @@ public class IncDecFragement extends Fragment {
     til = activity.findViewById(R.id.til_inc_dec);
     tv_method1 = activity.findViewById(R.id.tv_method1);
     tv_method2 = activity.findViewById(R.id.tv_method2);
+    tv_inc_dec_warning = activity.findViewById(R.id.tv_inc_dec_warning);
 
     btn_calc.setOnClickListener(new View.OnClickListener() {
       @Override
       public void onClick(View view) {
-        calculateAndSetTVs();
+
+        calculateAndSetTVs(true);
       }
     });
 
@@ -71,6 +74,7 @@ public class IncDecFragement extends Fragment {
         tv_method2.setText("");
         tv_method1.setVisibility(View.GONE);
         tv_method2.setVisibility(View.GONE);
+        tv_inc_dec_warning.setVisibility(View.INVISIBLE);
       }
     });
 
@@ -83,31 +87,45 @@ public class IncDecFragement extends Fragment {
         if (radioGroup.getCheckedRadioButtonId() == btn_decrease.getId()) {
           til.setHint("No. to decrease");
         }
-        calculateAndSetTVs();
+        calculateAndSetTVs(false);
       }
     });
   }
 
-  private void calculateAndSetTVs() {
+  private void calculateAndSetTVs(boolean print_errors) {
     int stitches;
     int changes;
+    tv_inc_dec_warning.setVisibility(View.INVISIBLE);
     try {
       stitches = Integer.parseInt(Objects.requireNonNull(et_num_stitches.getText()).toString());
     } catch (Exception e) {
-      Toast.makeText(getContext(), "Please input the number of stitches you are starting with", Toast.LENGTH_SHORT).show();
+      if (print_errors) {
+        Toast.makeText(getContext(), "Number of stitches not specified", Toast.LENGTH_SHORT).show();
+      }
       return;
     }
     try {
       changes = Integer.parseInt(Objects.requireNonNull(et_num_change.getText()).toString());
     } catch (Exception e) {
-      Toast.makeText(getContext(), "Please input the number of stitches to increase/decrease by", Toast.LENGTH_SHORT).show();
+      if (print_errors) {
+        Toast.makeText(getContext(), "Number of stitches not specified", Toast.LENGTH_SHORT).show();
+      }
       return;
     }
+
     if (switch_mode.getCheckedRadioButtonId() == btn_increase.getId()) {
+      if (changes > stitches){
+        tv_inc_dec_warning.setText(getString(R.string.tv_inc_warning));
+        tv_inc_dec_warning.setVisibility(View.VISIBLE);
+      }
       Pair<String, String> increase = increase(stitches, changes);
       tv_method1.setText(String.format("Unbalanced:\n%s", increase.first));
       tv_method2.setText(String.format("More balanced:\n%s", increase.second));
     } else if (switch_mode.getCheckedRadioButtonId() == btn_decrease.getId()) {
+      if (changes > stitches/2){
+        tv_inc_dec_warning.setText(getString(R.string.tv_dec_warning));
+        tv_inc_dec_warning.setVisibility(View.VISIBLE);
+      }
       Pair<String, String> decrease = decrease(stitches, changes);
       tv_method1.setText(decrease.first);
       tv_method2.setText(decrease.second);

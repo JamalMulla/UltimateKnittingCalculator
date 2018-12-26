@@ -4,6 +4,7 @@ import static com.jmulla.ukc.Conversions.calculateAmounts;
 
 import android.os.Bundle;
 import android.support.annotation.NonNull;
+import android.support.constraint.ConstraintLayout;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.util.Pair;
@@ -16,8 +17,11 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Spinner;
 import android.widget.TextView;
+import android.widget.Toast;
 
 public class ConversionFragment extends Fragment {
+
+
 
 
   @Override
@@ -29,7 +33,7 @@ public class ConversionFragment extends Fragment {
   @Override
   public void onActivityCreated(Bundle savedInstanceState) {
     super.onActivityCreated(savedInstanceState);
-    FragmentActivity activity = getActivity();
+    final FragmentActivity activity = getActivity();
     final EditText et_yardage = activity.findViewById(R.id.et_yardage);
     final EditText et_skein_weight = activity.findViewById(R.id.et_skein_weight);
     final EditText et_skein_yardage = activity.findViewById(R.id.et_skein_yardage);
@@ -40,6 +44,8 @@ public class ConversionFragment extends Fragment {
     final Spinner spinner_yardage = activity.findViewById(R.id.spinner_yardage);
     final Spinner spinner_weight = activity.findViewById(R.id.spinner_weight);
     final Spinner spinner_skein_yardage = activity.findViewById(R.id.spinner_skein_yardage);
+    final ConstraintLayout container = activity.findViewById(R.id.container);
+
 
     // Adapter for yardage
     ArrayAdapter<String> yardage_adapter = new ArrayAdapter<>(activity, R.layout.custom_spinner_item);
@@ -80,16 +86,19 @@ public class ConversionFragment extends Fragment {
         try {
           patternYarn = Double.valueOf(et_yardage.getText().toString());
         } catch (NumberFormatException e) {
+          Toast.makeText(getContext(), "Yarn amount for project not specified", Toast.LENGTH_SHORT).show();
           return;
         }
         try {
           ballWeight = Double.valueOf(et_skein_weight.getText().toString());
         } catch (NumberFormatException e) {
+          Toast.makeText(getContext(), "Weight of skein not specified", Toast.LENGTH_SHORT).show();
           return;
         }
         try {
           ballYarn = Double.valueOf(et_skein_yardage.getText().toString());
         } catch (NumberFormatException e) {
+          Toast.makeText(getContext(), "Yardage of skein not specified", Toast.LENGTH_SHORT).show();
           return;
         }
         double patternYarnMetres = patternYarn;
@@ -112,13 +121,13 @@ public class ConversionFragment extends Fragment {
         } else {
           double yarn_weight = doubleDoublePair.first;
           if (spinner_weight.getSelectedItem().toString().equals("Ounces")){
-            yarn_weight = Utils.roundToDP(Utils.gramsToOunces(yarn_weight), 1);
+            yarn_weight = Utils.roundToDP(Utils.gramsToOunces(yarn_weight), 2);
             tv_yarn_weight.setText(String.format("You will need %s ounces of yarn.", yarn_weight));
           }else {
-            tv_yarn_weight.setText(String.format("You will need %s grams of yarn.", Utils.roundToDP(yarn_weight, 1)));
+            tv_yarn_weight.setText(String.format("You will need %s grams of yarn.", Utils.roundToDP(yarn_weight, 2)));
           }
 
-          String num_balls = String.valueOf(Utils.roundToDP(doubleDoublePair.second, 1));
+          String num_balls = String.valueOf(Utils.roundToDP(doubleDoublePair.second, 2));
           tv_num_balls.setText(String
               .format("This is %s skeins/balls. Best to round up when buying", num_balls));
           tv_yarn_weight.setVisibility(View.VISIBLE);

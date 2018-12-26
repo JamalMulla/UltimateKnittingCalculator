@@ -6,6 +6,20 @@
   xmlns:android="http://schemas.android.com/apk/res/android"
   xmlns:app="http://schemas.android.com/apk/res-auto">
 
+
+  <TextView
+    android:id="@+id/tv_inc_dec_warning"
+    android:layout_width="0dp"
+    android:layout_height="wrap_content"
+    android:visibility="invisible"
+    app:layout_constraintTop_toTopOf="parent"
+    android:textColor="#fce4ec"
+    android:textAlignment="center"
+    app:layout_constraintBottom_toTopOf="@id/switch_mode"
+    app:layout_constraintStart_toStartOf="@id/gl_left_main_v"
+    app:layout_constraintEnd_toStartOf="@id/gl_right_main_v"
+    />
+
   <RadioGroup
     android:id="@+id/switch_mode"
     android:layout_width="0dp"
