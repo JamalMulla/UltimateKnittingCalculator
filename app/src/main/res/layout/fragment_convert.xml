@@ -11,14 +11,14 @@
     android:layout_width="wrap_content"
     android:layout_height="wrap_content"
     android:orientation="vertical"
-    app:layout_constraintGuide_begin="32dp"/>
+    app:layout_constraintGuide_begin="24dp"/>
 
   <android.support.constraint.Guideline
     android:id="@+id/gl_right_convert_v"
     android:layout_width="wrap_content"
     android:layout_height="wrap_content"
     android:orientation="vertical"
-    app:layout_constraintGuide_end="32dp"/>
+    app:layout_constraintGuide_end="24dp"/>
 
   <android.support.constraint.Guideline
     android:id="@+id/gl_convert_h"
@@ -234,6 +234,20 @@
     app:layout_constraintEnd_toStartOf="@+id/gl_right_convert_v"
     app:layout_constraintStart_toStartOf="@+id/gl_left_convert_v"
     app:layout_constraintTop_toBottomOf="@+id/tv_yarn_weight"/>
+
+  <TextView
+    android:textSize="14sp"
+    android:id="@+id/tv_conv_info"
+    android:layout_width="0dp"
+    android:layout_height="wrap_content"
+    android:textAlignment="center"
+    android:textColor="@color/quiter"
+    android:autoLink="all"
+    app:layout_constraintBottom_toBottomOf="parent"
+    app:layout_constraintEnd_toStartOf="@+id/gl_right_convert_v"
+    app:layout_constraintStart_toStartOf="@+id/gl_left_convert_v"
+    app:layout_constraintTop_toBottomOf="@+id/tv_yarn_weight"
+    app:layout_constraintVertical_bias="0.3"/>
 
 
 </android.support.constraint.ConstraintLayout>

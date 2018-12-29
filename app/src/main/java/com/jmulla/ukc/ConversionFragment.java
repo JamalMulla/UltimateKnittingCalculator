@@ -1,13 +1,14 @@
 package com.jmulla.ukc;
 
 import static com.jmulla.ukc.Conversions.calculateAmounts;
+import static com.jmulla.ukc.MainActivity.hideKeyboardFrom;
 
 import android.os.Bundle;
 import android.support.annotation.NonNull;
-import android.support.constraint.ConstraintLayout;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.util.Pair;
+import android.text.method.LinkMovementMethod;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -20,8 +21,6 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 public class ConversionFragment extends Fragment {
-
-
 
 
   @Override
@@ -44,9 +43,9 @@ public class ConversionFragment extends Fragment {
     final Spinner spinner_yardage = activity.findViewById(R.id.spinner_yardage);
     final Spinner spinner_weight = activity.findViewById(R.id.spinner_weight);
     final Spinner spinner_skein_yardage = activity.findViewById(R.id.spinner_skein_yardage);
-    final ConstraintLayout container = activity.findViewById(R.id.container);
-
-
+    final TextView tv_conv_info = activity.findViewById(R.id.tv_conv_info);
+    tv_conv_info.setText(getString(R.string.tv_conv_info));
+    tv_conv_info.setMovementMethod(LinkMovementMethod.getInstance());
     // Adapter for yardage
     ArrayAdapter<String> yardage_adapter = new ArrayAdapter<>(activity, R.layout.custom_spinner_item);
     yardage_adapter.add("Yards");
@@ -66,6 +65,7 @@ public class ConversionFragment extends Fragment {
     btn_clear.setOnClickListener(new OnClickListener() {
       @Override
       public void onClick(View view) {
+        hideKeyboardFrom(getContext(), tv_yarn_weight);
         et_yardage.requestFocus();
         et_yardage.setText("");
         et_skein_weight.setText("");
@@ -80,6 +80,7 @@ public class ConversionFragment extends Fragment {
     btn_convert.setOnClickListener(new OnClickListener() {
       @Override
       public void onClick(View view) {
+        hideKeyboardFrom(getContext(), tv_yarn_weight);
         double patternYarn;
         double ballWeight;
         double ballYarn;

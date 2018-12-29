@@ -59,9 +59,9 @@ class IncreasesDecreases {
             knitBeg2 = Math.ceil(lowBet / 2);
         }
 
-        String m1S = cleanInner((int) times1_1, cleanInner((int) knitBet1, "(K%d, M1 K1) ", "(M1 K1) ") + "%d times", "");
+        String m1S = cleanInner((int) times1_1, cleanInner((int) knitBet1, "(K%d, M1 K1) ", "(M1 K1) ") + "%d times,", "");
         //System.out.println(knitEnd1);
-        String end = cleanInner((int) knitEnd1, ", end with K%d", "");
+        String end = cleanInner((int) knitEnd1, " end with K%d", "");
         String method1 = m1S + end;
 
         knitBet2_1Inner = cleanInner((int) knitBet2_1, "(M1, K%d) ", "k2tog ");
@@ -72,7 +72,7 @@ class IncreasesDecreases {
                         cleanInner((int) times2_1, knitBet2_1Inner + "%d times, ", "") +
                         cleanInner((int) times2_2, knitBet2_2Inner + "%d times, ", "") +
                         cleanInner((int) times2_3, kntiBet2_3Inner + "%d times, ", "") +
-                        cleanInner((int) knitBeg2, "M1, K%d ", "M1");
+                        cleanInner((int) knitBeg2, "end with M1, K%d ", "end with M1");
 
         return new Pair<>(method1, method2);
 

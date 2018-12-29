@@ -2,10 +2,15 @@ package com.jmulla.ukc;
 
 import static com.jmulla.ukc.IncreasesDecreases.decrease;
 import static com.jmulla.ukc.IncreasesDecreases.increase;
+import static com.jmulla.ukc.MainActivity.hideKeyboardFrom;
 
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
+import android.support.constraint.ConstraintLayout;
+import android.support.design.widget.BottomNavigationView;
+import android.support.design.widget.CoordinatorLayout;
+import android.support.design.widget.Snackbar;
 import android.support.design.widget.TextInputEditText;
 import android.support.design.widget.TextInputLayout;
 import android.support.v4.app.Fragment;
@@ -32,7 +37,9 @@ public class IncDecFragement extends Fragment {
   private TextView tv_method2;
   private TextView tv_method1;
   private TextView tv_inc_dec_warning;
-
+  private TextView tv_inc_dec_info;
+  private CoordinatorLayout container;
+  private BottomNavigationView navigationView;
 
   @Override
   public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container,
@@ -55,18 +62,23 @@ public class IncDecFragement extends Fragment {
     tv_method1 = activity.findViewById(R.id.tv_method1);
     tv_method2 = activity.findViewById(R.id.tv_method2);
     tv_inc_dec_warning = activity.findViewById(R.id.tv_inc_dec_warning);
+    tv_inc_dec_info = activity.findViewById(R.id.tv_inc_dec_info);
+    container = activity.findViewById(R.id.container);
+    navigationView = activity.findViewById(R.id.navigation);
 
+    tv_inc_dec_info.setText(getString(R.string.tv_inc_dec_info));
     btn_calc.setOnClickListener(new View.OnClickListener() {
       @Override
       public void onClick(View view) {
-
         calculateAndSetTVs(true);
+        hideKeyboardFrom(getContext(), tv_method1);
       }
     });
 
     btn_clear.setOnClickListener(new View.OnClickListener() {
       @Override
       public void onClick(View view) {
+        hideKeyboardFrom(getContext(), tv_method1);
         et_num_stitches.requestFocus();
         et_num_stitches.setText("");
         et_num_change.setText("");
@@ -75,6 +87,7 @@ public class IncDecFragement extends Fragment {
         tv_method1.setVisibility(View.GONE);
         tv_method2.setVisibility(View.GONE);
         tv_inc_dec_warning.setVisibility(View.INVISIBLE);
+        tv_inc_dec_info.setVisibility(View.VISIBLE);
       }
     });
 
@@ -92,12 +105,38 @@ public class IncDecFragement extends Fragment {
     });
   }
 
+  public void showSnackbar(String message)
+  {
+
+    Snackbar snack = Snackbar.make(container,
+        message, Snackbar.LENGTH_LONG);
+    CoordinatorLayout.LayoutParams params = (CoordinatorLayout.LayoutParams)
+        snack.getView().getLayoutParams();
+    params.setMargins(0,0,0,0);
+    TextView snackbarTextView = snack.getView().findViewById(android.support.design.R.id.snackbar_text);
+    params.height = navigationView.getHeight() - 4;
+    snackbarTextView.setTextSize(12);
+    snackbarTextView.setPadding(2,2,2,2);
+    snack.getView().setLayoutParams(params);
+
+    snack.show();
+
+    //Snackbar.make(view, message, duration).show();
+  }
+
   private void calculateAndSetTVs(boolean print_errors) {
     int stitches;
     int changes;
     tv_inc_dec_warning.setVisibility(View.INVISIBLE);
+
     try {
       stitches = Integer.parseInt(Objects.requireNonNull(et_num_stitches.getText()).toString());
+      if (stitches <= 0){
+        if (print_errors) {
+          Toast.makeText(getContext(), "Can't use 0 stitches", Toast.LENGTH_SHORT).show();
+          return;
+        }
+      }
     } catch (Exception e) {
       if (print_errors) {
         Toast.makeText(getContext(), "Number of stitches not specified", Toast.LENGTH_SHORT).show();
@@ -106,29 +145,41 @@ public class IncDecFragement extends Fragment {
     }
     try {
       changes = Integer.parseInt(Objects.requireNonNull(et_num_change.getText()).toString());
+      if (changes <= 0){
+        if (print_errors) {
+          Toast.makeText(getContext(), "Can't use 0 stitches", Toast.LENGTH_SHORT).show();
+          return;
+        }
+      }
     } catch (Exception e) {
       if (print_errors) {
         Toast.makeText(getContext(), "Number of stitches not specified", Toast.LENGTH_SHORT).show();
       }
       return;
     }
-
+    if (print_errors){
+      tv_inc_dec_info.setVisibility(View.INVISIBLE);
+    }
     if (switch_mode.getCheckedRadioButtonId() == btn_increase.getId()) {
-      if (changes > stitches){
-        tv_inc_dec_warning.setText(getString(R.string.tv_inc_warning));
+      if (changes >= stitches){
+
+        String warning = getString(R.string.tv_inc_warning);
+        //showSnackbar(warning);
+        tv_inc_dec_warning.setText(warning);
         tv_inc_dec_warning.setVisibility(View.VISIBLE);
       }
       Pair<String, String> increase = increase(stitches, changes);
-      tv_method1.setText(String.format("Unbalanced:\n%s", increase.first));
+      tv_method1.setText(String.format("Less balanced:\n%s", increase.first));
       tv_method2.setText(String.format("More balanced:\n%s", increase.second));
     } else if (switch_mode.getCheckedRadioButtonId() == btn_decrease.getId()) {
       if (changes > stitches/2){
+        //showSnackbar(getString(R.string.tv_dec_warning));
         tv_inc_dec_warning.setText(getString(R.string.tv_dec_warning));
         tv_inc_dec_warning.setVisibility(View.VISIBLE);
       }
       Pair<String, String> decrease = decrease(stitches, changes);
-      tv_method1.setText(decrease.first);
-      tv_method2.setText(decrease.second);
+      tv_method1.setText(String.format("Less balanced:\n%s", decrease.first));
+      tv_method2.setText(String.format("More balanced:\n%s", decrease.second));
     }
     tv_method1.setVisibility(View.VISIBLE);
     tv_method2.setVisibility(View.VISIBLE);

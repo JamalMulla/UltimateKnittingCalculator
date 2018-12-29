@@ -1,7 +1,7 @@
 <resources>
     <string name="app_name">Ultimate Knitting Calculator</string>
     <string name="title_home">Stitches</string>
-    <string name="title_dashboard">Skeins</string>
+    <string name="title_dashboard">Conversion</string>
     <string name="title_notifications">Notifications</string>
     <string name="inc_dec_desc">This calculator allows you to calculate 2 different methods of increasing or decreasing your stitches.</string>
     <string name="til_pattern_yarn_hint">Project yarn amount</string>
@@ -12,6 +12,17 @@
     <string name="btn_increase">Increase</string>
     <string name="btn_decrease">Decrease</string>
     <string name="til_current_stitches">Current stitches</string>
-    <string name="tv_dec_warning">Cannot decrease by more than half the number of stitches</string>
-    <string name="tv_inc_warning">Cannot increase by more than the number of current stitches</string>
+    <string name="tv_dec_warning">Can\'t decrease by more than half the number of stitches</string>
+    <string name="tv_inc_warning">Can\'t increase by more than or equal to the number of stitches</string>
+    <string name="tv_inc_dec_info">
+        This calculator will help you figure out how to increase or decrease evenly across a row. \n\n
+        The first method will typically be easier but may result in a non-symmetric increase/decrease. However, for most projects this will be fine. \n\n
+        The second method will be more balanced and will try to be as symmetric as possible around the centre stitch.
+    </string>
+    <string name="tv_conv_info">
+        This calculator will estimate the weight of yarn you will need as well as the number of skeins. \n\n
+        You will need to input the relevant information which can usually be found on the ball label of your skein. \n\n
+        If it isn\'t there it may be possible for you to find it on https://www.ravelry.com
+    </string>
+
 </resources>

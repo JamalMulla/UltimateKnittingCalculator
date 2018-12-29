@@ -1,6 +1,8 @@
 package com.jmulla.ukc;
 
+import android.app.Activity;
 import android.app.ActivityManager;
+import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.os.Bundle;
@@ -14,6 +16,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.inputmethod.InputMethodManager;
 
 public class MainActivity extends AppCompatActivity {
   NavViewPager viewPager;
@@ -35,6 +38,10 @@ public class MainActivity extends AppCompatActivity {
     }
   };
 
+  public static void hideKeyboardFrom(Context context, View view) {
+    InputMethodManager imm = (InputMethodManager) context.getSystemService(Activity.INPUT_METHOD_SERVICE);
+    imm.hideSoftInputFromWindow(view.getWindowToken(), 0);
+  }
 
 
   @Override
