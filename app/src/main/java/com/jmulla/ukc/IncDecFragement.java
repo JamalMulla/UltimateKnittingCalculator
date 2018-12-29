@@ -7,14 +7,14 @@ import static com.jmulla.ukc.MainActivity.hideKeyboardFrom;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
-import android.support.constraint.ConstraintLayout;
-import android.support.design.widget.BottomNavigationView;
-import android.support.design.widget.CoordinatorLayout;
-import android.support.design.widget.Snackbar;
 import android.support.design.widget.TextInputEditText;
 import android.support.design.widget.TextInputLayout;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
+import android.support.v7.app.AlertDialog;
+import android.text.SpannableString;
+import android.text.method.LinkMovementMethod;
+import android.text.style.ClickableSpan;
 import android.util.Pair;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -38,13 +38,11 @@ public class IncDecFragement extends Fragment {
   private TextView tv_method1;
   private TextView tv_inc_dec_warning;
   private TextView tv_inc_dec_info;
-  private CoordinatorLayout container;
-  private BottomNavigationView navigationView;
 
   @Override
   public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container,
       Bundle savedInstanceState) {
-      return inflater.inflate(R.layout.fragment_inc_dec, container, false);
+    return inflater.inflate(R.layout.fragment_inc_dec, container, false);
   }
 
   @Override
@@ -63,66 +61,62 @@ public class IncDecFragement extends Fragment {
     tv_method2 = activity.findViewById(R.id.tv_method2);
     tv_inc_dec_warning = activity.findViewById(R.id.tv_inc_dec_warning);
     tv_inc_dec_info = activity.findViewById(R.id.tv_inc_dec_info);
-    container = activity.findViewById(R.id.container);
-    navigationView = activity.findViewById(R.id.navigation);
 
-    tv_inc_dec_info.setText(getString(R.string.tv_inc_dec_info));
-    btn_calc.setOnClickListener(new View.OnClickListener() {
+    final AlertDialog textDialog = createTextDialog(getString(R.string.tv_inc_dec_info));
+    final SpannableString spannable = SpannableString.valueOf("Confused? Click here");
+    Utils.applySpan(spannable, "here", new ClickableSpan() {
       @Override
-      public void onClick(View view) {
-        calculateAndSetTVs(true);
-        hideKeyboardFrom(getContext(), tv_method1);
+      public void onClick(View widget) {
+        textDialog.show();
       }
     });
+    tv_inc_dec_info.setText(spannable);
+    tv_inc_dec_info.setMovementMethod(LinkMovementMethod.getInstance());
 
-    btn_clear.setOnClickListener(new View.OnClickListener() {
-      @Override
-      public void onClick(View view) {
-        hideKeyboardFrom(getContext(), tv_method1);
-        et_num_stitches.requestFocus();
-        et_num_stitches.setText("");
-        et_num_change.setText("");
-        tv_method1.setText("");
-        tv_method2.setText("");
-        tv_method1.setVisibility(View.GONE);
-        tv_method2.setVisibility(View.GONE);
-        tv_inc_dec_warning.setVisibility(View.INVISIBLE);
-        tv_inc_dec_info.setVisibility(View.VISIBLE);
-      }
+    btn_calc.setOnClickListener(view -> {
+      calculateAndSetTVs(true);
+      hideKeyboardFrom(getContext(), tv_method1);
     });
 
-    switch_mode.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
-      @Override
-      public void onCheckedChanged(RadioGroup radioGroup, int i) {
-        if (radioGroup.getCheckedRadioButtonId() == btn_increase.getId()) {
-          til.setHint("No. to increase");
-        }
-        if (radioGroup.getCheckedRadioButtonId() == btn_decrease.getId()) {
-          til.setHint("No. to decrease");
-        }
-        calculateAndSetTVs(false);
+    btn_clear.setOnClickListener(view -> {
+      hideKeyboardFrom(getContext(), tv_method1);
+      et_num_stitches.requestFocus();
+      et_num_stitches.setText("");
+      et_num_change.setText("");
+      tv_method1.setText("");
+      tv_method2.setText("");
+      tv_method1.setVisibility(View.GONE);
+      tv_method2.setVisibility(View.GONE);
+      tv_inc_dec_warning.setVisibility(View.INVISIBLE);
+      tv_inc_dec_info.setVisibility(View.VISIBLE);
+    });
+
+    switch_mode.setOnCheckedChangeListener((radioGroup, i) -> {
+      if (radioGroup.getCheckedRadioButtonId() == btn_increase.getId()) {
+        til.setHint("No. to increase");
       }
+      if (radioGroup.getCheckedRadioButtonId() == btn_decrease.getId()) {
+        til.setHint("No. to decrease");
+      }
+      calculateAndSetTVs(false);
     });
   }
 
-  public void showSnackbar(String message)
-  {
 
-    Snackbar snack = Snackbar.make(container,
-        message, Snackbar.LENGTH_LONG);
-    CoordinatorLayout.LayoutParams params = (CoordinatorLayout.LayoutParams)
-        snack.getView().getLayoutParams();
-    params.setMargins(0,0,0,0);
-    TextView snackbarTextView = snack.getView().findViewById(android.support.design.R.id.snackbar_text);
-    params.height = navigationView.getHeight() - 4;
-    snackbarTextView.setTextSize(12);
-    snackbarTextView.setPadding(2,2,2,2);
-    snack.getView().setLayoutParams(params);
+  public AlertDialog createTextDialog(String text) {
+    AlertDialog.Builder alert = new AlertDialog.Builder(getContext());
+    final TextView input = new TextView(getContext());
+    input.setText(text);
+    input.setPadding(32, 32, 32, 16);
+    input.setTextAlignment(View.TEXT_ALIGNMENT_CENTER);
+    alert.setView(input);
 
-    snack.show();
+    alert.setPositiveButton("Ok", (dialog, whichButton) -> {
+    });
 
-    //Snackbar.make(view, message, duration).show();
+    return alert.create();
   }
+
 
   private void calculateAndSetTVs(boolean print_errors) {
     int stitches;
@@ -131,7 +125,7 @@ public class IncDecFragement extends Fragment {
 
     try {
       stitches = Integer.parseInt(Objects.requireNonNull(et_num_stitches.getText()).toString());
-      if (stitches <= 0){
+      if (stitches <= 0) {
         if (print_errors) {
           Toast.makeText(getContext(), "Can't use 0 stitches", Toast.LENGTH_SHORT).show();
           return;
@@ -145,7 +139,7 @@ public class IncDecFragement extends Fragment {
     }
     try {
       changes = Integer.parseInt(Objects.requireNonNull(et_num_change.getText()).toString());
-      if (changes <= 0){
+      if (changes <= 0) {
         if (print_errors) {
           Toast.makeText(getContext(), "Can't use 0 stitches", Toast.LENGTH_SHORT).show();
           return;
@@ -157,14 +151,13 @@ public class IncDecFragement extends Fragment {
       }
       return;
     }
-    if (print_errors){
+    if (print_errors) {
       tv_inc_dec_info.setVisibility(View.INVISIBLE);
     }
     if (switch_mode.getCheckedRadioButtonId() == btn_increase.getId()) {
-      if (changes >= stitches){
+      if (changes >= stitches) {
 
         String warning = getString(R.string.tv_inc_warning);
-        //showSnackbar(warning);
         tv_inc_dec_warning.setText(warning);
         tv_inc_dec_warning.setVisibility(View.VISIBLE);
       }
@@ -172,8 +165,7 @@ public class IncDecFragement extends Fragment {
       tv_method1.setText(String.format("Less balanced:\n%s", increase.first));
       tv_method2.setText(String.format("More balanced:\n%s", increase.second));
     } else if (switch_mode.getCheckedRadioButtonId() == btn_decrease.getId()) {
-      if (changes > stitches/2){
-        //showSnackbar(getString(R.string.tv_dec_warning));
+      if (changes > stitches / 2) {
         tv_inc_dec_warning.setText(getString(R.string.tv_dec_warning));
         tv_inc_dec_warning.setVisibility(View.VISIBLE);
       }
