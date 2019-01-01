@@ -6,7 +6,7 @@ import android.text.style.ClickableSpan;
 import java.math.BigDecimal;
 import java.math.RoundingMode;
 
-public class Utils {
+class Utils {
 
   static double metresToYards(double metres) {
     return metres * 1.09361;

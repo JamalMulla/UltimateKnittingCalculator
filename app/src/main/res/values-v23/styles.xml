@@ -1,0 +1,53 @@
+<resources>
+
+
+  <!-- Light base activity theme -->
+  <style name="AppTheme.Light" parent="Theme.MaterialComponents.Light.NoActionBar">
+    <item name="colorPrimary">@color/colorPrimaryLight</item>
+    <item name="colorPrimaryDark">@color/colorPrimaryDarkLight</item>
+    <item name="colorAccent">@color/colorAccent</item>
+    <item name="primaryTextColor">@color/colorPrimaryNight</item>
+    <item name="secondaryTextColor">@color/colorPrimaryDarkNight</item>
+    <item name="backgroundColor">@color/colorPrimaryLight</item>
+    <item name="android:windowLightStatusBar">true</item>
+    <item name="android:statusBarColor">@color/colorPrimaryLight</item>
+    <item name="android:textColor">@color/colorPrimaryNight</item>
+    <item name="actionOverflowButtonStyle">@style/DotsLightTheme</item>
+    <item name="android:colorBackground">@color/colorPrimaryLight</item>
+    <item name="android:textColorPrimary">@color/grey900</item>
+  </style>
+
+  <!-- Dark base activity theme -->
+  <style name="AppTheme.Dark" parent="Theme.MaterialComponents.NoActionBar">
+    <item name="colorPrimary">@color/grey900</item>
+    <item name="colorPrimaryDark">@color/colorPrimaryDarkNight</item>
+    <item name="colorAccent">@color/colorAccent</item>
+    <item name="primaryTextColor">@color/colorPrimaryLight</item>
+    <item name="secondaryTextColor">@color/colorPrimaryDarkLight</item>
+    <item name="backgroundColor">@color/grey900</item>
+    <item name="android:windowLightStatusBar">false</item>
+    <item name="android:statusBarColor">@color/grey900</item>
+    <item name="android:textColor">@color/colorPrimaryLight</item>
+    <item name="actionOverflowButtonStyle">@style/DotsDarkTheme</item>
+  </style>
+
+
+  <style name="FeedActivityThemeLight" parent="AppTheme.Light">
+    <item name="android:windowBackground">@color/colorPrimaryLight</item>
+  </style>
+
+  <style name="FeedActivityThemeDark" parent="AppTheme.Dark">
+    <item name="android:windowBackground">@color/grey900</item>
+  </style>
+
+  <style name="DotsDarkTheme" parent="Widget.AppCompat.ActionButton.Overflow">
+    <item name="android:tint">@color/colorPrimaryLight</item>
+  </style>
+
+  <style name="DotsLightTheme" parent="Widget.AppCompat.ActionButton.Overflow">
+    <item name="android:tint">@color/colorPrimaryNight</item>
+  </style>
+
+
+
+</resources>

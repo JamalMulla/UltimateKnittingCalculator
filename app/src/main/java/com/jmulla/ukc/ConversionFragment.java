@@ -1,7 +1,7 @@
 package com.jmulla.ukc;
 
 import static com.jmulla.ukc.Conversions.calculateAmounts;
-import static com.jmulla.ukc.MainActivity.hideKeyboardFrom;
+import static com.jmulla.ukc.MainActivity.hideKeyboard;
 
 import android.content.Context;
 import android.os.Bundle;
@@ -92,12 +92,12 @@ public class ConversionFragment extends Fragment {
 
     btn_convert.setOnClickListener(view -> {
       calculateAndSetTvs();
-      hideKeyboardFrom(getContext(), tv_yarn_weight);
+      hideKeyboard(getContext(), tv_yarn_weight);
 
     });
 
     btn_clear.setOnClickListener(view -> {
-      hideKeyboardFrom(getContext(), tv_yarn_weight);
+      hideKeyboard(getContext(), tv_yarn_weight);
       et_yardage.requestFocus();
       et_yardage.setText("");
       et_skein_weight.setText("");

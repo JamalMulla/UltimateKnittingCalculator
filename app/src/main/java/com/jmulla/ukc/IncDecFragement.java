@@ -2,8 +2,10 @@ package com.jmulla.ukc;
 
 import static com.jmulla.ukc.IncreasesDecreases.decrease;
 import static com.jmulla.ukc.IncreasesDecreases.increase;
-import static com.jmulla.ukc.MainActivity.hideKeyboardFrom;
+import static com.jmulla.ukc.MainActivity.hideKeyboard;
 
+import android.content.Context;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
@@ -15,6 +17,7 @@ import android.support.v7.app.AlertDialog;
 import android.text.SpannableString;
 import android.text.method.LinkMovementMethod;
 import android.text.style.ClickableSpan;
+import android.util.Log;
 import android.util.Pair;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -24,6 +27,7 @@ import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.TextView;
 import android.widget.Toast;
+import java.lang.reflect.Field;
 import java.util.Objects;
 
 public class IncDecFragement extends Fragment {
@@ -33,7 +37,8 @@ public class IncDecFragement extends Fragment {
   private RadioButton btn_decrease;
   private TextInputEditText et_num_stitches;
   private TextInputEditText et_num_change;
-  private TextInputLayout til;
+  private TextInputLayout til_inc_dec;
+  private TextInputLayout til_current_stitches;
   private TextView tv_method2;
   private TextView tv_method1;
   private TextView tv_inc_dec_warning;
@@ -56,11 +61,31 @@ public class IncDecFragement extends Fragment {
     Button btn_clear = activity.findViewById(R.id.btn_clear);
     et_num_stitches = activity.findViewById(R.id.et_num_stitches);
     et_num_change = activity.findViewById(R.id.et_num_change);
-    til = activity.findViewById(R.id.til_inc_dec);
+    til_inc_dec = activity.findViewById(R.id.til_inc_dec);
+    til_current_stitches = activity.findViewById(R.id.til_current_stitches);
     tv_method1 = activity.findViewById(R.id.tv_method1);
     tv_method2 = activity.findViewById(R.id.tv_method2);
     tv_inc_dec_warning = activity.findViewById(R.id.tv_inc_dec_warning);
     tv_inc_dec_info = activity.findViewById(R.id.tv_inc_dec_info);
+
+
+    int color;
+    SharedPreferences sharedPref = getActivity()
+        .getSharedPreferences("com.jmulla.ka.prefs", Context.MODE_PRIVATE);
+    if (sharedPref.getBoolean("ka_dark_mode", false)) {
+      color = getResources().getColor(R.color.colorPrimaryLight);
+    } else {
+      color = getResources().getColor(R.color.grey900);
+    }
+    try {
+      Field field = TextInputLayout.class.getDeclaredField("defaultStrokeColor");
+      field.setAccessible(true);
+      field.set(til_current_stitches, color);
+      field.set(til_inc_dec, color);
+    }
+    catch (NoSuchFieldException | IllegalAccessException e) {
+      Log.wtf("TAG", "Failed to change box color, item might look wrong");
+    }
 
     final AlertDialog textDialog = createTextDialog(getString(R.string.tv_inc_dec_info));
     final SpannableString spannable = SpannableString.valueOf("Confused? Click here");
@@ -75,11 +100,11 @@ public class IncDecFragement extends Fragment {
 
     btn_calc.setOnClickListener(view -> {
       calculateAndSetTVs(true);
-      hideKeyboardFrom(getContext(), tv_method1);
+      hideKeyboard(getContext(), tv_method1);
     });
 
     btn_clear.setOnClickListener(view -> {
-      hideKeyboardFrom(getContext(), tv_method1);
+      hideKeyboard(getContext(), tv_method1);
       et_num_stitches.requestFocus();
       et_num_stitches.setText("");
       et_num_change.setText("");
@@ -93,10 +118,10 @@ public class IncDecFragement extends Fragment {
 
     switch_mode.setOnCheckedChangeListener((radioGroup, i) -> {
       if (radioGroup.getCheckedRadioButtonId() == btn_increase.getId()) {
-        til.setHint("No. to increase");
+        til_inc_dec.setHint("No. to increase");
       }
       if (radioGroup.getCheckedRadioButtonId() == btn_decrease.getId()) {
-        til.setHint("No. to decrease");
+        til_inc_dec.setHint("No. to decrease");
       }
       calculateAndSetTVs(false);
     });
@@ -110,7 +135,6 @@ public class IncDecFragement extends Fragment {
     input.setPadding(32, 32, 32, 16);
     input.setTextAlignment(View.TEXT_ALIGNMENT_CENTER);
     alert.setView(input);
-
     alert.setPositiveButton("Ok", (dialog, whichButton) -> {
     });
 
@@ -151,6 +175,7 @@ public class IncDecFragement extends Fragment {
       }
       return;
     }
+    //todo fix disappearing text
     if (print_errors) {
       tv_inc_dec_info.setVisibility(View.INVISIBLE);
     }

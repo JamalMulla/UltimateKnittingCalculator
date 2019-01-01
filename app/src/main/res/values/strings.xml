@@ -15,14 +15,10 @@
     <string name="tv_dec_warning">Can\'t decrease by more than half the number of stitches</string>
     <string name="tv_inc_warning">Can\'t increase by more than or equal to the number of stitches</string>
     <string name="tv_inc_dec_info">
-        This calculator will help you figure out how to increase or decrease evenly across a row. \n\n
-        The first method will typically be easier but may result in a non-symmetric increase/decrease. However, for most projects this will be fine. \n\n
-        The second method will be more balanced and will try to be as symmetric as possible around the centre stitch.
+      This calculator will help you figure out how to increase or decrease evenly across a row.\n\nJust input the current number of stitches and the number you want to increase/decrease by.\n\nThe first method will typically be easier to knit but may result in a non-symmetric increase/decrease. However, for most projects this will be fine.\n\nThe second method will be more balanced and will try to be as symmetric as possible around the centre stitch.
     </string>
     <string name="tv_conv_info">
-        This calculator will estimate the weight of yarn you will need as well as the number of skeins. \n\n
-        You will need to input the relevant information which can usually be found on the ball label of your skein. \n\n
-        If it isn\'t there it may be possible for you to find it on https://www.ravelry.com
+      This calculator will estimate the weight of yarn you will need as well as the number of skeins.&lt;br&gt;&lt;br&gt;You will need to input the relevant information which can usually be found on the ball label of your skein.&lt;br&gt;&lt;br&gt;If it isn\'t there it may be possible for you to find it on &lt;a href=https://www.ravelry.com&gt;Ravelry&lt;/a&gt;
     </string>
 
 </resources>

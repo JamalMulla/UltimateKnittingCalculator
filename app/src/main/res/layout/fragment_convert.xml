@@ -3,7 +3,8 @@
   xmlns:android="http://schemas.android.com/apk/res/android"
   xmlns:app="http://schemas.android.com/apk/res-auto"
   android:layout_width="match_parent"
-  android:layout_height="match_parent">
+  android:layout_height="match_parent"
+  >
 
 
   <android.support.constraint.Guideline
@@ -11,14 +12,14 @@
     android:layout_width="wrap_content"
     android:layout_height="wrap_content"
     android:orientation="vertical"
-    app:layout_constraintGuide_begin="24dp"/>
+    app:layout_constraintGuide_percent=".05"/>
 
   <android.support.constraint.Guideline
     android:id="@+id/gl_right_convert_v"
     android:layout_width="wrap_content"
     android:layout_height="wrap_content"
     android:orientation="vertical"
-    app:layout_constraintGuide_end="24dp"/>
+    app:layout_constraintGuide_percent=".95"/>
 
   <android.support.constraint.Guideline
     android:id="@+id/gl_convert_h"
@@ -32,7 +33,7 @@
     android:layout_width="wrap_content"
     android:layout_height="wrap_content"
     android:orientation="vertical"
-    app:layout_constraintGuide_begin="225dp"/>
+    app:layout_constraintGuide_percent="0.66"/>
 
   <android.support.v7.widget.AppCompatSpinner
     android:id="@+id/spinner_yardage"
@@ -64,8 +65,7 @@
     app:layout_constraintHorizontal_chainStyle="spread"
     app:layout_constraintStart_toStartOf="@+id/gl_left_convert_v"
     app:layout_constraintTop_toTopOf="parent"
-    app:layout_constraintVertical_chainStyle="spread"
-    app:theme="@style/AppTheme">
+    app:layout_constraintVertical_chainStyle="spread">
 
     <android.support.design.widget.TextInputEditText
       android:id="@+id/et_yardage"
@@ -107,8 +107,7 @@
     app:layout_constraintEnd_toStartOf="@+id/gl_spinner_v"
     app:layout_constraintHorizontal_bias="0.75"
     app:layout_constraintStart_toStartOf="@+id/gl_left_convert_v"
-    app:layout_constraintTop_toBottomOf="@id/til_project_yarn"
-    app:theme="@style/AppTheme">
+    app:layout_constraintTop_toBottomOf="@id/til_project_yarn">
 
     <android.support.design.widget.TextInputEditText
       android:id="@+id/et_skein_weight"
@@ -150,7 +149,7 @@
     app:layout_constraintHorizontal_bias="0.75"
     app:layout_constraintStart_toStartOf="@+id/gl_left_convert_v"
     app:layout_constraintTop_toBottomOf="@id/til_skein_weight"
-    app:theme="@style/AppTheme">
+    >
 
     <android.support.design.widget.TextInputEditText
       android:id="@+id/et_skein_yardage"
@@ -175,6 +174,7 @@
     android:layout_marginEnd="8dp"
     android:elevation="0dp"
     android:text="@string/btn_calculate"
+    android:textColor="?attr/primaryTextColor"
     app:layout_constraintBottom_toTopOf="@+id/gl_convert_h"
     app:layout_constraintEnd_toStartOf="@+id/btn_convert_clear"
     app:layout_constraintHorizontal_chainStyle="spread_inside"
@@ -192,7 +192,7 @@
     android:layout_marginEnd="8dp"
     android:elevation="0dp"
     android:text="@string/btn_clear"
-    android:textColor="@color/white"
+    android:textColor="?attr/primaryTextColor"
     app:backgroundTint="?attr/backgroundColor"
     app:layout_constraintBottom_toTopOf="@+id/gl_convert_h"
     app:layout_constraintEnd_toStartOf="@+id/gl_right_convert_v"
@@ -242,7 +242,6 @@
     android:layout_height="wrap_content"
     android:textAlignment="center"
     android:textColor="@color/quiter"
-    android:autoLink="all"
     app:layout_constraintBottom_toBottomOf="parent"
     app:layout_constraintEnd_toStartOf="@+id/gl_right_convert_v"
     app:layout_constraintStart_toStartOf="@+id/gl_left_convert_v"
