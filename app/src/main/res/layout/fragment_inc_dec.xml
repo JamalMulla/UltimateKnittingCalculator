@@ -153,14 +153,16 @@
     android:layout_marginEnd="8dp"
     android:elevation="0dp"
     android:text="@string/btn_calculate"
+    android:textColor="?attr/backgroundColor"
     app:backgroundTint="@color/colorAccent"
-    android:textColor="?attr/primaryTextColor"
     app:layout_constraintTop_toBottomOf="@+id/til_inc_dec"
     app:layout_constraintStart_toStartOf="@+id/gl_left_main_v"
     app:layout_constraintEnd_toStartOf="@+id/btn_clear"
     app:layout_constraintBottom_toTopOf="@+id/gl_center_h"
     app:layout_constraintHorizontal_chainStyle="spread_inside"
     app:layout_constraintVertical_chainStyle="spread_inside"
+    app:rippleColor="?attr/primaryTextColor"
+    style="?android:attr/borderlessButtonStyle"
     />
 
   <android.support.design.button.MaterialButton
@@ -172,14 +174,17 @@
     android:layout_marginEnd="8dp"
     android:elevation="0dp"
     android:text="@string/btn_clear"
+    android:textColor="?attr/colorAccent"
     app:backgroundTint="?attr/backgroundColor"
-    android:textColor="?attr/primaryTextColor"
     app:layout_constraintTop_toBottomOf="@+id/til_inc_dec"
     app:layout_constraintStart_toEndOf="@+id/btn_calc"
     app:layout_constraintEnd_toStartOf="@+id/gl_right_main_v"
     app:layout_constraintBottom_toTopOf="@+id/gl_center_h"
-    app:strokeColor="@color/colorAccent"
-    app:strokeWidth="1dp"/>
+    app:rippleColor="?attr/primaryTextColor"
+    app:strokeColor="?attr/primaryTextColor"
+    app:strokeWidth="1dp"
+    style="?android:attr/borderlessButtonStyle"
+    />
 
 
   <TextView
@@ -220,6 +225,7 @@
     android:layout_width="0dp"
     android:layout_height="wrap_content"
     android:textAlignment="center"
+    android:textColor="?attr/secondaryTextColor"
     app:layout_constraintBottom_toBottomOf="parent"
     app:layout_constraintEnd_toStartOf="@+id/gl_right_main_v"
     app:layout_constraintStart_toStartOf="@+id/gl_left_main_v"

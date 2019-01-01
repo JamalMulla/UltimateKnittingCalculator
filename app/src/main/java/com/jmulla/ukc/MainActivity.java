@@ -48,6 +48,7 @@ public class MainActivity extends AppCompatActivity {
     }
   };
 
+
   public static void hideKeyboard(Context context, View view) {
     InputMethodManager imm = (InputMethodManager) context.getSystemService(Activity.INPUT_METHOD_SERVICE);
     if (imm != null) {
@@ -96,7 +97,10 @@ public class MainActivity extends AppCompatActivity {
       supportActionBar.setDisplayShowTitleEnabled(false);
     }
     final BottomNavigationView navigation = findViewById(R.id.navigation);
+
     navigation.setOnNavigationItemSelectedListener(mOnNavigationItemSelectedListener);
+    Drawable icon = navigation.getMenu().getItem(0).getIcon();
+    icon.setColorFilter(getResources().getColor(R.color.colorAccent), PorterDuff.Mode.SRC_ATOP);
     viewPager = findViewById(R.id.nav_viewpager);
     final ViewPagerAdapter adapter = new ViewPagerAdapter (MainActivity.this.getSupportFragmentManager());
     adapter.addFragment(new IncDecFragement(), "inc_dec_fragment");

@@ -35,13 +35,12 @@
     android:orientation="vertical"
     app:layout_constraintGuide_percent="0.66"/>
 
-  <android.support.v7.widget.AppCompatSpinner
+  <Spinner
     android:id="@+id/spinner_yardage"
     style="@android:style/Widget.Material.Spinner.Underlined"
     android:layout_width="0dp"
     android:layout_height="0dp"
     android:padding="0dp"
-    android:spinnerMode="dialog"
     app:layout_constraintBottom_toBottomOf="@+id/til_project_yarn"
     app:layout_constraintEnd_toStartOf="@+id/gl_right_convert_v"
     app:layout_constraintStart_toEndOf="@id/gl_spinner_v"
@@ -80,13 +79,12 @@
   </android.support.design.widget.TextInputLayout>
 
 
-  <android.support.v7.widget.AppCompatSpinner
+  <Spinner
     android:id="@+id/spinner_weight"
     style="@android:style/Widget.Material.Spinner.Underlined"
     android:layout_width="0dp"
     android:layout_height="0dp"
     android:padding="0dp"
-    android:spinnerMode="dialog"
     app:layout_constraintBottom_toBottomOf="@+id/til_skein_weight"
     app:layout_constraintEnd_toStartOf="@+id/gl_right_convert_v"
     app:layout_constraintStart_toEndOf="@id/gl_spinner_v"
@@ -121,13 +119,12 @@
       />
   </android.support.design.widget.TextInputLayout>
 
-  <android.support.v7.widget.AppCompatSpinner
+  <Spinner
     android:id="@+id/spinner_skein_yardage"
     style="@android:style/Widget.Material.Spinner.Underlined"
     android:layout_width="0dp"
     android:layout_height="0dp"
     android:padding="0dp"
-    android:spinnerMode="dialog"
     app:layout_constraintBottom_toBottomOf="@+id/til_skein_yardage"
     app:layout_constraintEnd_toStartOf="@+id/gl_right_convert_v"
     app:layout_constraintStart_toEndOf="@id/gl_spinner_v"
@@ -174,13 +171,16 @@
     android:layout_marginEnd="8dp"
     android:elevation="0dp"
     android:text="@string/btn_calculate"
-    android:textColor="?attr/primaryTextColor"
+    android:textColor="?attr/backgroundColor"
+    app:backgroundTint="@color/colorAccent"
     app:layout_constraintBottom_toTopOf="@+id/gl_convert_h"
     app:layout_constraintEnd_toStartOf="@+id/btn_convert_clear"
     app:layout_constraintHorizontal_chainStyle="spread_inside"
     app:layout_constraintStart_toStartOf="@+id/gl_left_convert_v"
     app:layout_constraintTop_toBottomOf="@+id/til_skein_yardage"
     app:layout_constraintVertical_chainStyle="spread_inside"
+    app:rippleColor="?attr/primaryTextColor"
+    style="?android:attr/borderlessButtonStyle"
     />
 
   <android.support.design.button.MaterialButton
@@ -192,14 +192,16 @@
     android:layout_marginEnd="8dp"
     android:elevation="0dp"
     android:text="@string/btn_clear"
-    android:textColor="?attr/primaryTextColor"
+    android:textColor="?attr/colorAccent"
     app:backgroundTint="?attr/backgroundColor"
     app:layout_constraintBottom_toTopOf="@+id/gl_convert_h"
     app:layout_constraintEnd_toStartOf="@+id/gl_right_convert_v"
     app:layout_constraintStart_toEndOf="@+id/btn_convert"
     app:layout_constraintTop_toBottomOf="@+id/til_skein_yardage"
-    app:strokeColor="@color/colorAccent"
-    app:strokeWidth="1dp"/>
+    app:rippleColor="?attr/primaryTextColor"
+    app:strokeColor="?attr/primaryTextColor"
+    app:strokeWidth="1dp"
+    style="?android:attr/borderlessButtonStyle"/>
 
 
   <TextView
@@ -241,7 +243,7 @@
     android:layout_width="0dp"
     android:layout_height="wrap_content"
     android:textAlignment="center"
-    android:textColor="@color/quiter"
+    android:textColor="?attr/secondaryTextColor"
     app:layout_constraintBottom_toBottomOf="parent"
     app:layout_constraintEnd_toStartOf="@+id/gl_right_convert_v"
     app:layout_constraintStart_toStartOf="@+id/gl_left_convert_v"

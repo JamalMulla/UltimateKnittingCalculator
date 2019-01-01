@@ -4,5 +4,6 @@
         <attr name="primaryTextColor" format="color"/>
         <attr name="secondaryTextColor" format="color"/>
         <attr name="backgroundColor" format="color"/>
+        <attr name="drawableNavColor" format="color"/>
     </declare-styleable>
 </resources>

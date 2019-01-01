@@ -4,8 +4,10 @@ import static com.jmulla.ukc.Conversions.calculateAmounts;
 import static com.jmulla.ukc.MainActivity.hideKeyboard;
 
 import android.content.Context;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
+import android.support.design.widget.TextInputLayout;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.util.Pair;
@@ -15,6 +17,7 @@ import android.text.Html;
 import android.text.SpannableString;
 import android.text.method.LinkMovementMethod;
 import android.text.style.ClickableSpan;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -24,6 +27,7 @@ import android.widget.EditText;
 import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
+import java.lang.reflect.Field;
 
 public class ConversionFragment extends Fragment {
 
@@ -36,6 +40,9 @@ public class ConversionFragment extends Fragment {
   private Spinner spinner_skein_yardage;
   private TextView tv_conv_info;
   private TextView tv_num_balls;
+  private TextInputLayout til_project_yarn;
+  private TextInputLayout til_skein_weight;
+  private TextInputLayout til_skein_yardage;
   Button btn_convert;
 
   @Override
@@ -59,6 +66,30 @@ public class ConversionFragment extends Fragment {
     spinner_weight = activity.findViewById(R.id.spinner_weight);
     spinner_skein_yardage = activity.findViewById(R.id.spinner_skein_yardage);
     tv_conv_info = activity.findViewById(R.id.tv_conv_info);
+    til_project_yarn = activity.findViewById(R.id.til_project_yarn);
+    til_skein_weight = activity.findViewById(R.id.til_skein_weight);
+    til_skein_yardage = activity.findViewById(R.id.til_skein_yardage);
+
+    int color;
+    SharedPreferences sharedPref = getActivity()
+        .getSharedPreferences("com.jmulla.ka.prefs", Context.MODE_PRIVATE);
+    if (sharedPref.getBoolean("ka_dark_mode", false)) {
+      color = getResources().getColor(R.color.colorPrimaryLight);
+    } else {
+      color = getResources().getColor(R.color.grey900);
+    }
+    try {
+      Field field = TextInputLayout.class.getDeclaredField("defaultStrokeColor");
+      field.setAccessible(true);
+      field.set(til_project_yarn, color);
+      field.set(til_skein_weight, color);
+      field.set(til_skein_yardage, color);
+    }
+    catch (NoSuchFieldException | IllegalAccessException e) {
+      Log.wtf("TAG", "Failed to change box color, item might look wrong");
+    }
+
+
     tv_conv_info.setText(getString(R.string.tv_conv_info));
     tv_conv_info.setMovementMethod(LinkMovementMethod.getInstance());
 
