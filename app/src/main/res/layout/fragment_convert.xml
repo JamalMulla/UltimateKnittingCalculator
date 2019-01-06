@@ -172,7 +172,7 @@
     android:elevation="0dp"
     android:text="@string/btn_calculate"
     android:textColor="?attr/backgroundColor"
-    app:backgroundTint="@color/colorAccent"
+    app:backgroundTint="?android:attr/colorAccent"
     app:layout_constraintBottom_toTopOf="@+id/gl_convert_h"
     app:layout_constraintEnd_toStartOf="@+id/btn_convert_clear"
     app:layout_constraintHorizontal_chainStyle="spread_inside"

@@ -2,8 +2,10 @@ package com.jmulla.ukc;
 
 import android.app.Activity;
 import android.app.ActivityManager;
+import android.app.ActivityOptions;
 import android.app.SearchManager;
 import android.content.Context;
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
@@ -24,6 +26,7 @@ import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.Window;
 import android.view.inputmethod.InputMethodManager;
 import java.lang.reflect.Field;
 
@@ -86,6 +89,7 @@ public class MainActivity extends AppCompatActivity {
       this.setTaskDescription(taskDesc);
     }
 
+    getWindow().requestFeature(Window.FEATURE_CONTENT_TRANSITIONS);
     super.onCreate(savedInstanceState);
     setContentView(R.layout.activity_main);
     final Toolbar myToolbar = findViewById(R.id.my_toolbar);
@@ -99,8 +103,6 @@ public class MainActivity extends AppCompatActivity {
     final BottomNavigationView navigation = findViewById(R.id.navigation);
 
     navigation.setOnNavigationItemSelectedListener(mOnNavigationItemSelectedListener);
-    Drawable icon = navigation.getMenu().getItem(0).getIcon();
-    icon.setColorFilter(getResources().getColor(R.color.colorAccent), PorterDuff.Mode.SRC_ATOP);
     viewPager = findViewById(R.id.nav_viewpager);
     final ViewPagerAdapter adapter = new ViewPagerAdapter (MainActivity.this.getSupportFragmentManager());
     adapter.addFragment(new IncDecFragement(), "inc_dec_fragment");
@@ -157,6 +159,7 @@ public class MainActivity extends AppCompatActivity {
         } else {
           sharedPref.edit().putBoolean("ka_dark_mode", true).apply();
         }
+
         recreate();
         return true;
     }

@@ -63,7 +63,7 @@ class IncreasesDecreases {
     }
 
     String m1S = cleanInner((int) times1_1,
-        cleanInner((int) knitBet1, "(K%d, M1 K1) ", "(M1 K1) ") + "%d times,", "");
+        cleanInner((int) knitBet1, "(K%d, M1 K1) ", "(M1 K1) ") + "%d times", "");
     String end = cleanInner((int) knitEnd1, " end with K%d", "");
     String method1 = m1S + end;
 
