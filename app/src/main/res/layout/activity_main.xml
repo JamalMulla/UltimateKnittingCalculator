@@ -1,18 +1,16 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.design.widget.CoordinatorLayout
-  android:layout_height="match_parent"
+<androidx.coordinatorlayout.widget.CoordinatorLayout xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_height="match_parent"
   android:id="@+id/container"
   android:layout_width="match_parent"
   xmlns:android="http://schemas.android.com/apk/res/android">
-<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
-  xmlns:app="http://schemas.android.com/apk/res-auto"
-  xmlns:tools="http://schemas.android.com/tools"
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:tools="http://schemas.android.com/tools"
   android:layout_width="match_parent"
   android:layout_height="match_parent"
   tools:context=".MainActivity">
 
 
-  <android.support.v7.widget.Toolbar
+  <androidx.appcompat.widget.Toolbar
     android:id="@+id/my_toolbar"
     android:layout_width="0dp"
     android:layout_height="wrap_content"
@@ -33,7 +31,7 @@
       android:text="Calculator"
       android:textSize="20sp"
       app:fontFamily="@font/sary_soft_soft_regular"/>
-  </android.support.v7.widget.Toolbar>
+  </androidx.appcompat.widget.Toolbar>
 
   <com.jmulla.ukc.NavViewPager
     android:id="@+id/nav_viewpager"
@@ -44,18 +42,31 @@
     app:layout_constraintStart_toStartOf="parent"
     app:layout_constraintTop_toBottomOf="@+id/my_toolbar"/>
 
-  <android.support.design.widget.BottomNavigationView
-    android:id="@+id/navigation"
-    android:layout_width="0dp"
-    android:layout_height="wrap_content"
-    android:background="@drawable/top_line"
-    app:layout_constraintBottom_toBottomOf="parent"
-    app:layout_constraintEnd_toEndOf="parent"
-    app:layout_constraintStart_toStartOf="@+id/my_toolbar"
-    app:layout_constraintTop_toBottomOf="@+id/my_toolbar"
-    app:itemIconTint="@drawable/bottom_nav_selector"
-    app:menu="@menu/navigation"/>
+  <com.google.android.material.floatingactionbutton.FloatingActionButton
+      android:id="@+id/fab_feedback"
+      android:layout_width="wrap_content"
+      android:layout_height="wrap_content"
+      android:layout_gravity="end|bottom"
+      android:layout_margin="16dp"
+      app:backgroundTint="@color/colorAccent"
+      app:srcCompat="@drawable/ic_baseline_feedback_24px"
+      app:borderWidth="0dp"
+      app:layout_constraintBottom_toTopOf="@+id/navigation"
+      app:layout_constraintRight_toRightOf="parent" />
 
-</android.support.constraint.ConstraintLayout>
+  <com.google.android.material.bottomnavigation.BottomNavigationView
+      android:id="@+id/navigation"
+      android:layout_width="0dp"
+      android:layout_height="wrap_content"
+      android:background="@drawable/top_line"
+      app:itemIconTint="@drawable/bottom_nav_selector"
+      app:layout_constraintBottom_toBottomOf="parent"
+      app:layout_constraintEnd_toEndOf="parent"
+      app:layout_constraintHorizontal_bias="0.0"
+      app:layout_constraintStart_toStartOf="@+id/my_toolbar"
+      app:layout_constraintTop_toBottomOf="@+id/my_toolbar"
+      app:menu="@menu/navigation" />
 
-</android.support.design.widget.CoordinatorLayout>
+</androidx.constraintlayout.widget.ConstraintLayout>
+
+</androidx.coordinatorlayout.widget.CoordinatorLayout>

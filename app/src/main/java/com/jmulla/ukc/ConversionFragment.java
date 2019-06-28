@@ -6,13 +6,15 @@ import static com.jmulla.ukc.MainActivity.hideKeyboard;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.os.Bundle;
-import android.support.annotation.NonNull;
-import android.support.design.widget.TextInputLayout;
-import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentActivity;
-import android.support.v4.util.Pair;
-import android.support.v7.app.AlertDialog;
-import android.support.v7.app.AlertDialog.Builder;
+import androidx.annotation.NonNull;
+
+import com.google.android.material.floatingactionbutton.FloatingActionButton;
+import com.google.android.material.textfield.TextInputLayout;
+import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentActivity;
+import androidx.core.util.Pair;
+import androidx.appcompat.app.AlertDialog;
+import androidx.appcompat.app.AlertDialog.Builder;
 import android.text.Html;
 import android.text.SpannableString;
 import android.text.method.LinkMovementMethod;
@@ -28,6 +30,7 @@ import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 import java.lang.reflect.Field;
+import java.util.Objects;
 
 public class ConversionFragment extends Fragment {
 
@@ -43,7 +46,8 @@ public class ConversionFragment extends Fragment {
   private TextInputLayout til_project_yarn;
   private TextInputLayout til_skein_weight;
   private TextInputLayout til_skein_yardage;
-  Button btn_convert;
+  private Button btn_convert;
+  private FloatingActionButton fab;
 
   @Override
   public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container,
@@ -69,6 +73,7 @@ public class ConversionFragment extends Fragment {
     til_project_yarn = activity.findViewById(R.id.til_project_yarn);
     til_skein_weight = activity.findViewById(R.id.til_skein_weight);
     til_skein_yardage = activity.findViewById(R.id.til_skein_yardage);
+    fab = activity.findViewById(R.id.fab_feedback);
 
     int color;
     SharedPreferences sharedPref = getActivity()
@@ -123,12 +128,11 @@ public class ConversionFragment extends Fragment {
 
     btn_convert.setOnClickListener(view -> {
       calculateAndSetTvs();
-      hideKeyboard(getContext(), tv_yarn_weight);
-
+      hideKeyboard(Objects.requireNonNull(getContext()), tv_yarn_weight);
     });
 
     btn_clear.setOnClickListener(view -> {
-      hideKeyboard(getContext(), tv_yarn_weight);
+      hideKeyboard(Objects.requireNonNull(getContext()), tv_yarn_weight);
       et_yardage.requestFocus();
       et_yardage.setText("");
       et_skein_weight.setText("");
@@ -138,6 +142,7 @@ public class ConversionFragment extends Fragment {
       tv_yarn_weight.setVisibility(View.GONE);
       tv_num_balls.setVisibility(View.GONE);
       tv_conv_info.setVisibility(View.VISIBLE);
+      fab.setVisibility(View.VISIBLE);
     });
   }
 
@@ -180,6 +185,7 @@ public class ConversionFragment extends Fragment {
 
     Pair<Double, Double> doubleDoublePair = calculateAmounts(patternYarnMetres, ballWeightGrams,
         ballYarnMetres);
+
     if (doubleDoublePair == null) {
       System.out.println("Invalid values\n");
     } else {
@@ -197,11 +203,12 @@ public class ConversionFragment extends Fragment {
           .format("This is %s skeins/balls. Best to round up when buying", num_balls));
       tv_yarn_weight.setVisibility(View.VISIBLE);
       tv_num_balls.setVisibility(View.VISIBLE);
+      fab.setVisibility(View.GONE);
     }
   }
 
-  public AlertDialog createTextDialog(String text) {
-    Context context = getContext();
+  private AlertDialog createTextDialog(String text) {
+    Context context = Objects.requireNonNull(getContext());
     Builder alert = new Builder(context);
     final TextView input = new TextView(context);
     input.setLinksClickable(true);

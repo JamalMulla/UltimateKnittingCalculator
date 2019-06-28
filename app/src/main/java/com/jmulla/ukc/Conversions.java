@@ -1,6 +1,6 @@
 package com.jmulla.ukc;
 
-import android.support.v4.util.Pair;
+import androidx.core.util.Pair;
 
 class Conversions {
 

@@ -7,13 +7,15 @@ import static com.jmulla.ukc.MainActivity.hideKeyboard;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.os.Bundle;
-import android.support.annotation.NonNull;
-import android.support.annotation.Nullable;
-import android.support.design.widget.TextInputEditText;
-import android.support.design.widget.TextInputLayout;
-import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentActivity;
-import android.support.v7.app.AlertDialog;
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+
+import com.google.android.material.floatingactionbutton.FloatingActionButton;
+import com.google.android.material.textfield.TextInputEditText;
+import com.google.android.material.textfield.TextInputLayout;
+import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentActivity;
+import androidx.appcompat.app.AlertDialog;
 import android.text.SpannableString;
 import android.text.method.LinkMovementMethod;
 import android.text.style.ClickableSpan;
@@ -43,6 +45,7 @@ public class IncDecFragement extends Fragment {
   private TextView tv_method1;
   private TextView tv_inc_dec_warning;
   private TextView tv_inc_dec_info;
+  private FloatingActionButton fab;
 
   @Override
   public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container,
@@ -54,6 +57,9 @@ public class IncDecFragement extends Fragment {
   public void onActivityCreated(@Nullable Bundle savedInstanceState) {
     super.onActivityCreated(savedInstanceState);
     FragmentActivity activity = getActivity();
+    if (activity == null){
+      return;
+    }
     switch_mode = activity.findViewById(R.id.switch_mode);
     btn_increase = activity.findViewById(R.id.btn_increase);
     btn_decrease = activity.findViewById(R.id.btn_decrease);
@@ -67,6 +73,7 @@ public class IncDecFragement extends Fragment {
     tv_method2 = activity.findViewById(R.id.tv_method2);
     tv_inc_dec_warning = activity.findViewById(R.id.tv_inc_dec_warning);
     tv_inc_dec_info = activity.findViewById(R.id.tv_inc_dec_info);
+    fab = activity.findViewById(R.id.fab_feedback);
 
 
     int color;
@@ -100,11 +107,11 @@ public class IncDecFragement extends Fragment {
 
     btn_calc.setOnClickListener(view -> {
       calculateAndSetTVs(true);
-      hideKeyboard(getContext(), tv_method1);
+      hideKeyboard(Objects.requireNonNull(getContext()), tv_method1);
     });
 
     btn_clear.setOnClickListener(view -> {
-      hideKeyboard(getContext(), tv_method1);
+      hideKeyboard(Objects.requireNonNull(getContext()), tv_method1);
       et_num_stitches.requestFocus();
       et_num_stitches.setText("");
       et_num_change.setText("");
@@ -114,6 +121,7 @@ public class IncDecFragement extends Fragment {
       tv_method2.setVisibility(View.GONE);
       tv_inc_dec_warning.setVisibility(View.INVISIBLE);
       tv_inc_dec_info.setVisibility(View.VISIBLE);
+      fab.setVisibility(View.VISIBLE);
     });
 
     switch_mode.setOnCheckedChangeListener((radioGroup, i) -> {
@@ -128,8 +136,8 @@ public class IncDecFragement extends Fragment {
   }
 
 
-  public AlertDialog createTextDialog(String text) {
-    AlertDialog.Builder alert = new AlertDialog.Builder(getContext());
+  private AlertDialog createTextDialog(String text) {
+    AlertDialog.Builder alert = new AlertDialog.Builder(Objects.requireNonNull(getContext()));
     final TextView input = new TextView(getContext());
     input.setText(text);
     input.setPadding(32, 32, 32, 16);
@@ -200,6 +208,7 @@ public class IncDecFragement extends Fragment {
     }
     tv_method1.setVisibility(View.VISIBLE);
     tv_method2.setVisibility(View.VISIBLE);
+    fab.setVisibility(View.GONE);
 
   }
 

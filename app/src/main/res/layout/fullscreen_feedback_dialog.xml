@@ -1,0 +1,38 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="?attr/backgroundColor">
+
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Provide your comments, suggestions and general feedback."
+        android:id="@+id/text_dialog"
+        android:layout_marginTop="20dp"
+        android:layout_marginLeft="4dp"
+        android:layout_marginRight="4dp"
+        android:layout_marginBottom="20dp"
+        android:textSize="14sp"
+        android:textColor="?attr/primaryTextColor"
+        android:layout_centerHorizontal="true"
+        android:gravity="center_horizontal" />
+
+    <EditText
+        android:id="@+id/et_feedback"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/text_dialog"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentEnd="true"
+        android:layout_marginLeft="4dp"
+        android:layout_marginRight="4dp"
+        android:layout_marginBottom="20dp"
+        android:ems="10"
+        android:hint="Feedback..."
+        android:inputType="textMultiLine"
+         />
+
+
+</RelativeLayout>

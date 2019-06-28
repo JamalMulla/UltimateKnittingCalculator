@@ -2,37 +2,38 @@ package com.jmulla.ukc;
 
 import android.app.Activity;
 import android.app.ActivityManager;
-import android.app.ActivityOptions;
-import android.app.SearchManager;
+
+
 import android.content.Context;
-import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.PorterDuff;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
-import android.support.annotation.NonNull;
-import android.support.design.widget.BottomNavigationView;
-import android.support.design.widget.TextInputLayout;
-import android.support.v4.app.FragmentPagerAdapter;
-import android.support.v4.content.ContextCompat;
-import android.support.v4.view.ViewPager.OnPageChangeListener;
-import android.support.v7.app.ActionBar;
-import android.support.v7.app.AppCompatActivity;
-import android.support.v7.widget.SearchView;
-import android.support.v7.widget.Toolbar;
-import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.Window;
 import android.view.inputmethod.InputMethodManager;
-import java.lang.reflect.Field;
+
+import androidx.annotation.NonNull;
+import androidx.appcompat.app.ActionBar;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.Toolbar;
+import androidx.viewpager.widget.ViewPager.OnPageChangeListener;
+import androidx.fragment.app.FragmentTransaction;
+
+import com.google.android.material.bottomnavigation.BottomNavigationView;
+import com.google.android.material.floatingactionbutton.FloatingActionButton;
+import com.google.firebase.analytics.FirebaseAnalytics;
+
+import java.util.Objects;
 
 public class MainActivity extends AppCompatActivity {
   NavViewPager viewPager;
   SharedPreferences sharedPref;
+  private FirebaseAnalytics mFirebaseAnalytics;
 
   private BottomNavigationView.OnNavigationItemSelectedListener mOnNavigationItemSelectedListener
       = new BottomNavigationView.OnNavigationItemSelectedListener() {
@@ -62,6 +63,8 @@ public class MainActivity extends AppCompatActivity {
 
   @Override
   protected void onCreate(Bundle savedInstanceState) {
+    // Obtain the FirebaseAnalytics instance.
+    mFirebaseAnalytics = FirebaseAnalytics.getInstance(this);
     //Changes color of taskbar
     Bitmap bm = BitmapFactory.decodeResource(getResources(), getApplicationInfo().icon);
     int color;
@@ -74,8 +77,6 @@ public class MainActivity extends AppCompatActivity {
       setTheme(R.style.FeedActivityThemeLight);
       color = getResources().getColor(R.color.colorPrimaryLight);
     }
-
-
 
     if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.LOLLIPOP) {
       ActivityManager.TaskDescription taskDesc;
@@ -104,7 +105,7 @@ public class MainActivity extends AppCompatActivity {
 
     navigation.setOnNavigationItemSelectedListener(mOnNavigationItemSelectedListener);
     viewPager = findViewById(R.id.nav_viewpager);
-    final ViewPagerAdapter adapter = new ViewPagerAdapter (MainActivity.this.getSupportFragmentManager());
+    final ViewPagerAdapter adapter = new ViewPagerAdapter(MainActivity.this.getSupportFragmentManager());
     adapter.addFragment(new IncDecFragement(), "inc_dec_fragment");
     adapter.addFragment(new ConversionFragment(), "conv_fragment");
 
@@ -119,6 +120,7 @@ public class MainActivity extends AppCompatActivity {
       public void onPageSelected(int position) {
         navigation.getMenu().getItem(position).setChecked(true);
       }
+
       // Called when the scroll state changes:
       // SCROLL_STATE_IDLE, SCROLL_STATE_DRAGGING, SCROLL_STATE_SETTLING
       @Override
@@ -129,6 +131,29 @@ public class MainActivity extends AppCompatActivity {
     viewPager.setOffscreenPageLimit(2);
     viewPager.setAdapter(adapter);
     viewPager.setCurrentItem(0);
+
+    FloatingActionButton fab = findViewById(R.id.fab_feedback);
+    //get the drawable
+    Drawable myFabSrc = getResources().getDrawable(R.drawable.ic_baseline_feedback_24px);
+    //copy it in a new one
+    Drawable willBeWhite = Objects.requireNonNull(myFabSrc.getConstantState()).newDrawable();
+    //set the color filter, you can use also Mode.SRC_ATOP
+
+    willBeWhite.mutate().setColorFilter(color, PorterDuff.Mode.SRC_ATOP);
+    //set it to your fab button initialized before
+    fab.setImageDrawable(willBeWhite);
+
+    fab.setOnClickListener(view -> {
+      FeedbackDialog feedbackDialog = new FeedbackDialog();
+      feedbackDialog.showDialog(this);
+
+
+//      //The optional file provider authority allows you to
+//      //share the screenshot capture file to other apps (depending on your callback implementation)
+//      new Maoni.Builder(null).withDefaultToEmailAddress("jamalm0101@gmail.com")
+//          .build()
+//          .start(MainActivity.this); //The screenshot captured is relative to this calling activity
+    });
   }
 
 
@@ -152,16 +177,15 @@ public class MainActivity extends AppCompatActivity {
    */
   @Override
   public boolean onOptionsItemSelected(MenuItem item) {
-    switch (item.getItemId()) {
-      case R.id.menu_dark_mode:
-        if (sharedPref.getBoolean("ka_dark_mode", false)) {
-          sharedPref.edit().putBoolean("ka_dark_mode", false).apply();
-        } else {
-          sharedPref.edit().putBoolean("ka_dark_mode", true).apply();
-        }
+    if (item.getItemId() == R.id.menu_dark_mode) {
+      if (sharedPref.getBoolean("ka_dark_mode", false)) {
+        sharedPref.edit().putBoolean("ka_dark_mode", false).apply();
+      } else {
+        sharedPref.edit().putBoolean("ka_dark_mode", true).apply();
+      }
 
-        recreate();
-        return true;
+      recreate();
+      return true;
     }
 
     // User didn't trigger a refresh, let the superclass handle this action
