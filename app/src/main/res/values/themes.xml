@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources xmlns:tools="http://schemas.android.com/tools">
+    <style name="Theme.MaterialComponents.DayNight" parent="Theme.MaterialComponents.Light.NoActionBar">
+        <item name="colorPrimary">@color/grey900</item>
+        <item name="colorPrimaryDark">@color/colorPrimaryDarkLight</item>
+        <item name="colorAccent">@color/colorAccent</item>
+        <item name="primaryTextColor">@color/colorPrimaryNight</item>
+        <item name="secondaryTextColor">@color/colorPrimaryDarkNight</item>
+        <item name="backgroundColor">@color/white</item>
+        <item name="android:windowLightStatusBar" tools:targetApi="m">true</item>
+        <item name="android:statusBarColor">@color/white</item>
+        <item name="android:textColor">@color/colorPrimaryNight</item>
+        <item name="actionOverflowButtonStyle">@style/DotsLightTheme</item>
+        <item name="android:textColorPrimary">@color/grey900</item>
+        <item name="drawableNavColor">@color/grey900</item>
+        <item name="android:windowAnimationStyle">@style/WindowAnimationTransition</item>
+        <item name="android:windowActivityTransitions">true</item>
+    </style>
+
+</resources>

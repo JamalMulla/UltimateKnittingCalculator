@@ -8,7 +8,7 @@
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Provide your comments, suggestions and general feedback."
+        android:text="@string/feedback_subtitle"
         android:id="@+id/text_dialog"
         android:layout_marginTop="20dp"
         android:layout_marginLeft="4dp"
@@ -20,7 +20,7 @@
         android:gravity="center_horizontal" />
 
     <EditText
-        android:id="@+id/et_feedback"
+        android:id="@+id/et_feedback_name"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_below="@+id/text_dialog"
@@ -30,9 +30,40 @@
         android:layout_marginRight="4dp"
         android:layout_marginBottom="20dp"
         android:ems="10"
-        android:hint="Feedback..."
+        android:hint="@string/et_feedback_name_hint"
+        android:inputType="textPersonName"
+        android:importantForAutofill="no" />
+
+    <EditText
+        android:id="@+id/et_feedback"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/et_feedback_name"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentEnd="true"
+        android:layout_marginLeft="4dp"
+        android:layout_marginRight="4dp"
+        android:layout_marginBottom="20dp"
+        android:ems="10"
+        android:hint="@string/feedback_box_hint"
         android:inputType="textMultiLine"
-         />
+        android:importantForAutofill="no" />
+
+    <EditText
+        android:id="@+id/et_feedback_email"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/et_feedback"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentEnd="true"
+        android:layout_marginLeft="4dp"
+        android:layout_marginRight="4dp"
+        android:layout_marginBottom="20dp"
+        android:ems="10"
+        android:hint="@string/et_feedback_email_hint"
+        android:inputType="textEmailAddress"
+        android:importantForAutofill="no" />
+
 
 
 </RelativeLayout>

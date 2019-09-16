@@ -20,5 +20,12 @@
     <string name="tv_conv_info">
       This calculator will estimate the weight of yarn you will need as well as the number of skeins.&lt;br&gt;&lt;br&gt;You will need to input the relevant information which can usually be found on the ball label of your skein.&lt;br&gt;&lt;br&gt;If it isn\'t there it may be possible for you to find it on &lt;a href=https://www.ravelry.com&gt;Ravelry&lt;/a&gt;
     </string>
+    <string name="feedback_subtitle">Provide your comments, suggestions and general feedback.</string>
+    <string name="feedback_box_hint">Feedback... (Required)</string>
+    <string name="til_inc_dec_hint">No. to increase</string>
+    <string name="et_feedback_name_hint">Name... (Optional)</string>
+    <string name="et_feedback_email_hint">Email... (Optional)</string>
+    <string name="menu_dark_mode">Enable Dark Mode</string>
+    <string name="menu_settings">Settings</string>
 
 </resources>

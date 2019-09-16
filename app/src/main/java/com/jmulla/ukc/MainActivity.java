@@ -2,10 +2,10 @@ package com.jmulla.ukc;
 
 import android.app.Activity;
 import android.app.ActivityManager;
-
-
 import android.content.Context;
+import android.content.Intent;
 import android.content.SharedPreferences;
+import android.content.res.Configuration;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.PorterDuff;
@@ -20,20 +20,19 @@ import android.view.inputmethod.InputMethodManager;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.app.AppCompatDelegate;
 import androidx.appcompat.widget.Toolbar;
+import androidx.preference.PreferenceManager;
 import androidx.viewpager.widget.ViewPager.OnPageChangeListener;
-import androidx.fragment.app.FragmentTransaction;
 
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
-import com.google.firebase.analytics.FirebaseAnalytics;
 
 import java.util.Objects;
 
 public class MainActivity extends AppCompatActivity {
   NavViewPager viewPager;
-  SharedPreferences sharedPref;
-  private FirebaseAnalytics mFirebaseAnalytics;
+
 
   private BottomNavigationView.OnNavigationItemSelectedListener mOnNavigationItemSelectedListener
       = new BottomNavigationView.OnNavigationItemSelectedListener() {
@@ -63,32 +62,7 @@ public class MainActivity extends AppCompatActivity {
 
   @Override
   protected void onCreate(Bundle savedInstanceState) {
-    // Obtain the FirebaseAnalytics instance.
-    mFirebaseAnalytics = FirebaseAnalytics.getInstance(this);
-    //Changes color of taskbar
-    Bitmap bm = BitmapFactory.decodeResource(getResources(), getApplicationInfo().icon);
-    int color;
-    sharedPref = getSharedPreferences("com.jmulla.ka.prefs", Context.MODE_PRIVATE);
 
-    if (sharedPref.getBoolean("ka_dark_mode", false)) {
-      setTheme(R.style.FeedActivityThemeDark);
-      color = getResources().getColor(R.color.grey900);
-    } else {
-      setTheme(R.style.FeedActivityThemeLight);
-      color = getResources().getColor(R.color.colorPrimaryLight);
-    }
-
-    if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.LOLLIPOP) {
-      ActivityManager.TaskDescription taskDesc;
-      if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.P) {
-        taskDesc = new ActivityManager.TaskDescription(
-            "Knitting Calculator", bm, color);
-      } else {
-        taskDesc = new ActivityManager.TaskDescription(
-            "Knitting Calculator", null, color);
-      }
-      this.setTaskDescription(taskDesc);
-    }
 
     getWindow().requestFeature(Window.FEATURE_CONTENT_TRANSITIONS);
     super.onCreate(savedInstanceState);
@@ -133,26 +107,11 @@ public class MainActivity extends AppCompatActivity {
     viewPager.setCurrentItem(0);
 
     FloatingActionButton fab = findViewById(R.id.fab_feedback);
-    //get the drawable
-    Drawable myFabSrc = getResources().getDrawable(R.drawable.ic_baseline_feedback_24px);
-    //copy it in a new one
-    Drawable willBeWhite = Objects.requireNonNull(myFabSrc.getConstantState()).newDrawable();
-    //set the color filter, you can use also Mode.SRC_ATOP
-
-    willBeWhite.mutate().setColorFilter(color, PorterDuff.Mode.SRC_ATOP);
-    //set it to your fab button initialized before
-    fab.setImageDrawable(willBeWhite);
 
     fab.setOnClickListener(view -> {
       FeedbackDialog feedbackDialog = new FeedbackDialog();
       feedbackDialog.showDialog(this);
 
-
-//      //The optional file provider authority allows you to
-//      //share the screenshot capture file to other apps (depending on your callback implementation)
-//      new Maoni.Builder(null).withDefaultToEmailAddress("jamalm0101@gmail.com")
-//          .build()
-//          .start(MainActivity.this); //The screenshot captured is relative to this calling activity
     });
   }
 
@@ -160,15 +119,73 @@ public class MainActivity extends AppCompatActivity {
   @Override
   public boolean onCreateOptionsMenu(Menu menu) {
     getMenuInflater().inflate(R.menu.menu_main, menu);
-    MenuItem darkModeOption = menu.findItem(R.id.menu_dark_mode);
-    //Set text and color for options
-
-    if (sharedPref.getBoolean("ka_dark_mode", false)) {
-      darkModeOption.setTitle("Disable Dark Mode");
-    } else {
-      darkModeOption.setTitle("Enable Dark Mode");
-    }
     return true;
+  }
+
+  @Override
+  protected void onResume() {
+    super.onResume();
+    //Changes color of taskbar
+    Bitmap bm = BitmapFactory.decodeResource(getResources(), getApplicationInfo().icon);
+    int color;
+
+    String theme_choice = PreferenceManager.getDefaultSharedPreferences(this).getString("theme_choice", null);
+
+    if (theme_choice == null) {
+      //default is follow system
+      AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_FOLLOW_SYSTEM);
+    } else if (theme_choice.equals("0")) {
+      //dark mode
+      AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES);
+    } else if (theme_choice.equals("1")) {
+      //light mode
+      AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO);
+    } else if (theme_choice.equals("2")) {
+      AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_FOLLOW_SYSTEM);
+      //system default
+    } else {
+      AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_FOLLOW_SYSTEM);
+      //something went wrong
+    }
+
+
+    int currentNightMode = getResources().getConfiguration().uiMode & Configuration.UI_MODE_NIGHT_MASK;
+    switch (currentNightMode) {
+      case Configuration.UI_MODE_NIGHT_NO:
+        color = getResources().getColor(R.color.colorPrimaryLight);
+        // Night mode is not active, we're in day time
+      case Configuration.UI_MODE_NIGHT_YES:
+        color = getResources().getColor(R.color.grey900);
+        // Night mode is active, we're at night!
+      case Configuration.UI_MODE_NIGHT_UNDEFINED:
+        color = getResources().getColor(R.color.colorPrimaryLight);
+        // We don't know what mode we're in, assume notnight
+      default:
+        color = getResources().getColor(R.color.colorPrimaryLight);
+    }
+
+    if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.LOLLIPOP) {
+      ActivityManager.TaskDescription taskDesc;
+      if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.P) {
+        taskDesc = new ActivityManager.TaskDescription(
+            "Knitting Calculator", bm, color);
+      } else {
+        taskDesc = new ActivityManager.TaskDescription(
+            "Knitting Calculator", null, color);
+      }
+      this.setTaskDescription(taskDesc);
+    }
+
+    FloatingActionButton fab = findViewById(R.id.fab_feedback);
+    //get the drawable
+    Drawable myFabSrc = getResources().getDrawable(R.drawable.ic_baseline_feedback_24px);
+    //copy it in a new one
+    Drawable willBeWhite = Objects.requireNonNull(myFabSrc.getConstantState()).newDrawable();
+    //set the color filter, you can use also Mode.SRC_ATOP
+    willBeWhite.mutate().setColorFilter(color, PorterDuff.Mode.SRC_ATOP);
+    //set it to your fab button initialized before
+    fab.setImageDrawable(willBeWhite);
+
   }
 
   /*
@@ -177,15 +194,9 @@ public class MainActivity extends AppCompatActivity {
    */
   @Override
   public boolean onOptionsItemSelected(MenuItem item) {
-    if (item.getItemId() == R.id.menu_dark_mode) {
-      if (sharedPref.getBoolean("ka_dark_mode", false)) {
-        sharedPref.edit().putBoolean("ka_dark_mode", false).apply();
-      } else {
-        sharedPref.edit().putBoolean("ka_dark_mode", true).apply();
-      }
-
-      recreate();
-      return true;
+    if (item.getItemId() == R.id.menu_settings) {
+      Intent i = new Intent(this, SettingsActivity.class);
+      startActivity(i);
     }
 
     // User didn't trigger a refresh, let the superclass handle this action

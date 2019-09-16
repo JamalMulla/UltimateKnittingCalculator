@@ -121,7 +121,7 @@
     android:layout_marginTop="8dp"
     android:layout_marginStart="8dp"
     android:layout_marginEnd="8dp"
-    android:hint="No. to increase"
+    android:hint="@string/til_inc_dec_hint"
     app:boxStrokeWidth="1dp"
     app:layout_constraintBottom_toTopOf="@+id/btn_calc"
     app:layout_constraintEnd_toStartOf="@+id/gl_right_main_v"
