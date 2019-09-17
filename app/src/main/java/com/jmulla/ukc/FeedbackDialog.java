@@ -21,7 +21,6 @@ class FeedbackDialog {
   private EditText feedbackName;
   private EditText feedback;
   private EditText feedbackEmail;
-  private boolean success;
 
   void showDialog(Activity activity){
 
@@ -53,7 +52,7 @@ class FeedbackDialog {
           Toast.makeText(activity, "Feedback can't be empty", Toast.LENGTH_SHORT).show();
           return;
         }
-        ClientThread sender = new ClientThread(feedback.getText().toString());
+        ClientThread sender = new ClientThread(feedback.getText().toString(), activity);
         String feedbackName = this.feedbackName.getText().toString();
         if(!feedbackName.isEmpty()){
           sender.setFeedbackName(feedbackName);
@@ -66,18 +65,8 @@ class FeedbackDialog {
 
 
         Thread feedbackThread = new Thread(sender);
-        feedbackThread.start();
         alertDialog.dismiss();
-        try {
-          feedbackThread.join(4000);
-        } catch (InterruptedException e) {
-          e.printStackTrace();
-        }
-        if (success){
-          Toast.makeText(activity, "Thank you for the feedback", Toast.LENGTH_SHORT).show();
-        }else {
-          Toast.makeText(activity, "Couldn't send feedback. Check your internet connection", Toast.LENGTH_SHORT).show();
-        }
+        feedbackThread.start();
 
 
       });
@@ -90,17 +79,18 @@ class FeedbackDialog {
     private String feedbackName;
     private String feedback;
     private String feedbackEmail;
+    private Activity activity;
 
-    ClientThread(String feedback) {
+
+    public ClientThread(String feedback, Activity activity) {
       this.feedback = feedback;
       this.feedbackName = "N/A";
       this.feedbackEmail = "N/A";
+      this.activity = activity;
     }
 
 
-
     public void run() {
-      success = false;
       try {
         JSONObject jsonFeedback = new JSONObject();
         try {
@@ -120,10 +110,18 @@ class FeedbackDialog {
         }
 
         socket.close();
-        success = true;
+        activity.runOnUiThread(new Runnable() {
+          public void run() {
+            Toast.makeText(activity.getBaseContext(), "Thank you for the feedback", Toast.LENGTH_SHORT).show();
+          }
+        });
 
       } catch (IOException e) {
-        e.printStackTrace();
+        activity.runOnUiThread(new Runnable() {
+          public void run() {
+            Toast.makeText(activity.getBaseContext(), "Couldn't send feedback. Check your internet connection", Toast.LENGTH_SHORT).show();
+          }
+        });
       }
     }
 

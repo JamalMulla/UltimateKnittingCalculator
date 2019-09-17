@@ -5,6 +5,7 @@ import static com.jmulla.ukc.MainActivity.hideKeyboard;
 
 import android.content.Context;
 import android.content.SharedPreferences;
+import android.content.res.Configuration;
 import android.os.Bundle;
 import androidx.annotation.NonNull;
 
@@ -76,12 +77,20 @@ public class ConversionFragment extends Fragment {
     fab = activity.findViewById(R.id.fab_feedback);
 
     int color;
-    SharedPreferences sharedPref = getActivity()
-        .getSharedPreferences("com.jmulla.ka.prefs", Context.MODE_PRIVATE);
-    if (sharedPref.getBoolean("ka_dark_mode", false)) {
-      color = getResources().getColor(R.color.colorPrimaryLight);
-    } else {
-      color = getResources().getColor(R.color.grey900);
+    int currentNightMode = getResources().getConfiguration().uiMode & Configuration.UI_MODE_NIGHT_MASK;
+    switch (currentNightMode) {
+      case Configuration.UI_MODE_NIGHT_NO:
+        // Night mode is active, we're at night!
+        color = getResources().getColor(R.color.grey900);
+        break;
+      // We don't know what mode we're in, assume notnight
+      // Night mode is not active, we're in day time
+      // by default we use light
+      case Configuration.UI_MODE_NIGHT_YES:
+      case Configuration.UI_MODE_NIGHT_UNDEFINED:
+      default:
+        color = getResources().getColor(R.color.colorPrimaryLight);
+        break;
     }
     try {
       Field field = TextInputLayout.class.getDeclaredField("defaultStrokeColor");

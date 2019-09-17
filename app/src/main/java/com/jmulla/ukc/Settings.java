@@ -2,6 +2,7 @@ package com.jmulla.ukc;
 
 
 import android.content.Context;
+import android.os.Build;
 import android.os.Bundle;
 
 import androidx.preference.ListPreference;
@@ -20,11 +21,20 @@ public class Settings extends PreferenceFragmentCompat {
     PreferenceScreen screen = getPreferenceManager().createPreferenceScreen(context);
 
     ListPreference themePreference = new ListPreference(context);
-    themePreference.setEntries(new CharSequence[]{"Dark", "Light", "System default (recommended)"});
-    themePreference.setEntryValues(new CharSequence[]{"0", "1", "2"});
-    themePreference.setValue("2");
     themePreference.setSummary("Choose theme settings");
     themePreference.setKey("theme_choice");
+
+    //System default is for Android 10+ and battery default for lower versions
+    if (Build.VERSION.SDK_INT > Build.VERSION_CODES.P){
+      themePreference.setEntries(new CharSequence[]{"Dark", "Light", "System default (recommended)"});
+      themePreference.setEntryValues(new CharSequence[]{"0", "1", "2"});
+    } else {
+      themePreference.setEntries(new CharSequence[]{"Dark", "Light", "Set by Battery Saver (recommended)"});
+      themePreference.setEntryValues(new CharSequence[]{"0", "1", "3"});
+    }
+
+    themePreference.setValueIndex(2);
+
 
     themePreference.setOnPreferenceChangeListener(new Preference.OnPreferenceChangeListener() {
       @Override

@@ -6,6 +6,7 @@ import static com.jmulla.ukc.MainActivity.hideKeyboard;
 
 import android.content.Context;
 import android.content.SharedPreferences;
+import android.content.res.Configuration;
 import android.os.Bundle;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -60,11 +61,11 @@ public class IncDecFragement extends Fragment {
     if (activity == null){
       return;
     }
+    Button btn_calc = activity.findViewById(R.id.btn_calc);
+    Button btn_clear = activity.findViewById(R.id.btn_clear);
     switch_mode = activity.findViewById(R.id.switch_mode);
     btn_increase = activity.findViewById(R.id.btn_increase);
     btn_decrease = activity.findViewById(R.id.btn_decrease);
-    Button btn_calc = activity.findViewById(R.id.btn_calc);
-    Button btn_clear = activity.findViewById(R.id.btn_clear);
     et_num_stitches = activity.findViewById(R.id.et_num_stitches);
     et_num_change = activity.findViewById(R.id.et_num_change);
     til_inc_dec = activity.findViewById(R.id.til_inc_dec);
@@ -77,13 +78,24 @@ public class IncDecFragement extends Fragment {
 
 
     int color;
-    SharedPreferences sharedPref = getActivity()
-        .getSharedPreferences("com.jmulla.ka.prefs", Context.MODE_PRIVATE);
-    if (sharedPref.getBoolean("ka_dark_mode", false)) {
-      color = getResources().getColor(R.color.colorPrimaryLight);
-    } else {
-      color = getResources().getColor(R.color.grey900);
+
+    int currentNightMode = getResources().getConfiguration().uiMode & Configuration.UI_MODE_NIGHT_MASK;
+    switch (currentNightMode) {
+      case Configuration.UI_MODE_NIGHT_NO:
+        // Night mode is active, we're at night!
+        color = getResources().getColor(R.color.grey900);
+        break;
+      // We don't know what mode we're in, assume notnight
+      // Night mode is not active, we're in day time
+      // by default we use light
+      case Configuration.UI_MODE_NIGHT_YES:
+      case Configuration.UI_MODE_NIGHT_UNDEFINED:
+      default:
+        color = getResources().getColor(R.color.colorPrimaryLight);
+        break;
     }
+
+
     try {
       Field field = TextInputLayout.class.getDeclaredField("defaultStrokeColor");
       field.setAccessible(true);

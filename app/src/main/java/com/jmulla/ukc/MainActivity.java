@@ -16,6 +16,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.Window;
 import android.view.inputmethod.InputMethodManager;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.ActionBar;
@@ -63,8 +64,6 @@ public class MainActivity extends AppCompatActivity {
   @Override
   protected void onCreate(Bundle savedInstanceState) {
 
-
-    getWindow().requestFeature(Window.FEATURE_CONTENT_TRANSITIONS);
     super.onCreate(savedInstanceState);
     setContentView(R.layout.activity_main);
     final Toolbar myToolbar = findViewById(R.id.my_toolbar);
@@ -141,34 +140,38 @@ public class MainActivity extends AppCompatActivity {
       //light mode
       AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO);
     } else if (theme_choice.equals("2")) {
-      AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_FOLLOW_SYSTEM);
       //system default
-    } else {
       AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_FOLLOW_SYSTEM);
+    } else if (theme_choice.equals("3")) {
+      //follow battery
+      AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_AUTO_BATTERY);
+    } else {
       //something went wrong
+      AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_FOLLOW_SYSTEM);
     }
 
 
     int currentNightMode = getResources().getConfiguration().uiMode & Configuration.UI_MODE_NIGHT_MASK;
     switch (currentNightMode) {
-      case Configuration.UI_MODE_NIGHT_NO:
-        color = getResources().getColor(R.color.colorPrimaryLight);
-        // Night mode is not active, we're in day time
       case Configuration.UI_MODE_NIGHT_YES:
-        color = getResources().getColor(R.color.grey900);
         // Night mode is active, we're at night!
+        color = getResources().getColor(R.color.grey900);
+        break;
+      // We don't know what mode we're in, assume notnight
+      // Night mode is not active, we're in day time
+      // by default we use light
+      case Configuration.UI_MODE_NIGHT_NO:
       case Configuration.UI_MODE_NIGHT_UNDEFINED:
-        color = getResources().getColor(R.color.colorPrimaryLight);
-        // We don't know what mode we're in, assume notnight
       default:
         color = getResources().getColor(R.color.colorPrimaryLight);
+        break;
     }
 
     if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.LOLLIPOP) {
       ActivityManager.TaskDescription taskDesc;
       if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.P) {
         taskDesc = new ActivityManager.TaskDescription(
-            "Knitting Calculator", bm, color);
+            "Knitting Calculator", getApplicationInfo().icon, color);
       } else {
         taskDesc = new ActivityManager.TaskDescription(
             "Knitting Calculator", null, color);
